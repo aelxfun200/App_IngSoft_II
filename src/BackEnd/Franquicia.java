@@ -15,19 +15,23 @@ public class Franquicia {
 	private String direccion;
 	
 	String conexion;
+    ResultSet resultSet = null;
 	
-	public void conexionABD() {
-		conexion = 
-                "jdbc:sqlserver://yourserver.database.windows.net:1433;"
-                + "database=AdventureWorks;"
-                + "user=yourusername@yourserver;"
-                + "password=yourpassword;"
-                + "encrypt=true;"
-                + "trustServerCertificate=false;"
-                + "loginTimeout=30;";
+	public String accesoURL() {
+		return conexion = 
+                "jdbc:mysql://localhost:3306/alquilercoches?serverTimezone=UTC";
 	}
 	
+	public String usuario() {
+		return conexion = 
+                "root";
+	}
 	
+	public String password() {
+		return conexion = 
+                "root";
+	}
+			
 	//GETTERS
 	
 	public int getIdFranquicia() {
@@ -35,10 +39,17 @@ public class Franquicia {
 	}
 	
 	public String getProvincia() {
-		try (Connection conn = DriverManager.getConnection(conexion);){
-			
-			//TODO
-			//El código SQL de las consultas va aquí
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT * from alquilercoches.fichero_cliente";
+	            resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	                System.out.println(resultSet.getString(1));
+	            }
 			
 		}
 		
