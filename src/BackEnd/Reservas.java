@@ -10,10 +10,6 @@ import java.util.ArrayList;
 public class Reservas {
 	
 	private int idReserva;
-	private int idCoche;
-	private int idModelo;
-	private int idFranquicia;
-	private int idFactura;
 	private String estadoReserva;
 	private String fechaInicio;
 	private String fechaFin;
@@ -26,6 +22,9 @@ public class Reservas {
 	
 	Clientes cl = new Clientes();
 	Franquicia fr = new Franquicia();
+	Coches cch = new Coches();
+	Modelos md = new Modelos();
+	Facturas fc = new Facturas(); 
 	String conexion;
     ResultSet resultSet = null;
 	ArrayList<String> fechas = new ArrayList<>();
@@ -68,22 +67,6 @@ public class Reservas {
 	}
 	
 	
-	public int getIdCoche() {
-		return this.idCoche;
-	}
-	
-	public int getIdModelo() {
-		return this.idModelo;
-	}
-	
-	public int getIdFranquicia() {
-		return this.idFranquicia;
-	}
-	
-	public int getIdFactura() {
-		return this.idFactura;
-	}
-	
 	public String getFechaInicio() {
 		return this.fechaInicio;
 	}
@@ -94,27 +77,7 @@ public class Reservas {
 	
 
 	// SETTERS DE LOS ATRIBUTOS
-	
-	public void setIdReserva(int idReserva) {
-		this.idReserva = idReserva;
-	}
-	
-	public void setIdCoche(int idCoche) {
-		this.idCoche = idCoche;
-	}
-	
-	public void setIdModelo(int idModelo) {
-		this.idModelo = idModelo;
-	}
-	
-	public void setIdFranquicia(int idFranquicia) {
-		this.idFranquicia = idFranquicia;
-	}
-	
-	public void setIdFactura(int idFactura) {
-		this.idFactura = idFactura;
-	}
-	
+		
 	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
@@ -146,33 +109,35 @@ public class Reservas {
 		return fechas;
 	}
 		
+	//METODOS
+
+	//INSERT INTO `alquilercoches`.`fichero_reserva` (`id_reserva`, `id_coche`, `id_modelo`, `id_franquicia`, `id_factura`, `estado_reserva`, `fecha_inicio`, `fecha_fin`, `id_cliente`) VALUES ('3', '2222', '1', '2', '3', 'denegado', '2020-11-11', '2020-11-19', '22222222');
 	
-	public boolean compararIdCliente(String fecha) {
+	public void altaReserva(int id_cliente) {	
 		
-		boolean comp = false;
-		
+		String insertSql = "INSERT INTO alquilercoches.fichero_reserva (`id_coche`, `id_modelo`, `id_franquicia`, `id_factura`, `estado_reserva`, `fecha_inicio`, `fecha_fin`, `id_cliente`) "
+				+ "VALUES ( " + cch.getIdCoche() + ", " + md.getIdModelo() + ", " + fr.getIdFranquicia() + ", " + fc.getIdFactura() + ", \"" + getEstadoReserva() +"\", \"" + getFechaInicio() +"\", \"" + getFechaFin() + "\"," + cl.getIdCliente() +") ";
 		
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
-			Statement statement = conn.createStatement();) {
+			PreparedStatement prepsInsertProduct = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);) {        
 
-	        // Create and execute a SELECT SQL statement.
-	        String selectSql = "SELECT id_franquicia from alquilercoches.fichero_reserva WHERE ";
-	        resultSet = statement.executeQuery(selectSql);
+	        prepsInsertProduct.execute();
+	        // Retrieve the generated key from the insert.
+	        resultSet = prepsInsertProduct.getGeneratedKeys();
 
-            // Print results from select statement
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString(1));
-                	                
-            }
-		}
+	        // Print the ID of the inserted row.
+	        while (resultSet.next()) {
+	            System.out.println("Generated: " + resultSet.getString(1));
+	        }
+	    }
 		
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println(comp);
-		return comp;
 	}
 	
+	           
 
+	
 }

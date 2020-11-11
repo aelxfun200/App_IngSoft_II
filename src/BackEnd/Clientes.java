@@ -10,6 +10,10 @@ public class Clientes {
 	
 	private int idCliente;
 	
+	public Clientes() {
+		
+	}
+	
 	String conexion;
     ResultSet resultSet = null;
 	

@@ -2,31 +2,40 @@ package BackEnd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Coches {
 	
 	private int idCoche;
-	private int idModelo;
-	private int idFranquicia;
 	private String estadoCoche;
 	
-	String conexion;
-	
-	public void conexionABD() {
-		conexion = 
-                "jdbc:sqlserver://yourserver.database.windows.net:1433;"
-                + "database=AdventureWorks;"
-                + "user=yourusername@yourserver;"
-                + "password=yourpassword;"
-                + "encrypt=true;"
-                + "trustServerCertificate=false;"
-                + "loginTimeout=30;";
+	public Coches() {
+		
 	}
 	
+	String conexion;
+    ResultSet resultSet = null;
+	
+	public String accesoURL() {
+		return conexion = 
+                "jdbc:mysql://localhost:3306/alquilercoches?serverTimezone=UTC";
+	}
+	
+	public String usuario() {
+		return conexion = 
+                "root";
+	}
+	
+	public String password() {
+		return conexion = 
+                "root";
+	}
+	
+	ArrayList<String> matricula = new ArrayList<String>();
+	ArrayList<Integer> id_mat = new ArrayList<Integer>();
 	
 	//GETTERS
 	
@@ -34,46 +43,52 @@ public class Coches {
 		return this.idCoche;
 	}
 	
-	public int getIdModelo() {
-		return this.idModelo;
-	}
-	
-	public int getIdFranquicia() {
-		return this.idFranquicia;
-	}
-	
-	public String getEstadoCoche() {
-		try (Connection conn = DriverManager.getConnection(conexion);){
-			
-			//TODO
-			//El código SQL de las consultas va aquí
-			
-		}
-		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+	public String getEstadoCoche() {	
 		return this.estadoCoche;
 	}
 		
 
 	// SETTERS DE LOS ATRIBUTOS
 	
-	public void setIdCoche(int idCoche) {
-		this.idCoche = idCoche;
+	public void setIdCoche() {		
+		this.idCoche = id_mat.get(0);
+		id_mat.remove(0);
+		matricula.remove(0);
 	}
-	
-	public void setIdModelo(int idModelo) {
-		this.idModelo = idModelo;
-	}
-	
-	public void setIdFranquicia(int idFranquicia) {
-		this.idFranquicia = idFranquicia;
-	}
-	
+
 	public void setEstadoCoche(String estadoCoche) {
 		this.estadoCoche = estadoCoche;
 	}
+	
+	//METODOS
+	
+	public ArrayList<String> getCochesDelModelo(int modelo) { //DADO UN MODELO NOS DEVUELVE LOS COCHES DE ESE MODELO QUE ESTÉN DISPONIBLES
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+			Statement statement = conn.createStatement();) {
+
+	        // Create and execute a SELECT SQL statement.
+	        String selectSql = "SELECT matricula, letras_matrícula FROM alquilercoches.fichero_coche WHERE id_modelo= " + modelo;
+	        resultSet = statement.executeQuery(selectSql);
+
+            // Print results from select statement
+            while (resultSet.next()) {
+                id_mat.add(resultSet.getInt(1));
+            	
+                matricula.add(resultSet.getInt(1) + resultSet.getString(2));
+               
+            }
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(id_mat.toString());
+		
+		return matricula;
+	}
+	
+	
+	
 
 }

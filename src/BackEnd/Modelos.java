@@ -2,7 +2,6 @@ package BackEnd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -123,7 +122,7 @@ public class Modelos {
 				Statement statement = conn.createStatement();) {
 
 	            // Create and execute a SELECT SQL statement.
-	            String selectSql = "SELECT id_modelo FROM alquilercoches.fichero_coche WHERE id_franquicia = (SELECT id_franquicia FROM alquilercoches.fichero_franquicia WHERE ciudad = \""+ nombreFranquicia +"\" )";
+	            String selectSql = "SELECT id_modelo FROM alquilercoches.fichero_coche WHERE estado_coche = \"disponible\" && id_franquicia = (SELECT id_franquicia FROM alquilercoches.fichero_franquicia WHERE ciudad = \""+ nombreFranquicia +"\" )";
 	            resultSet = statement.executeQuery(selectSql);
 
 	            // Print results from select statement

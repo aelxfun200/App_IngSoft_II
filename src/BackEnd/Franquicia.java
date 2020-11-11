@@ -2,7 +2,6 @@ package BackEnd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -43,6 +42,10 @@ public class Franquicia {
 	
 	public int getIdFranquicia() {
 		return this.idFranquicia;
+	}
+	
+	public String getProvincia() {
+		return this.provincia;
 	}
 		
 	public String getCiudad() {

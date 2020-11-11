@@ -2,10 +2,10 @@ package BackEnd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Extras {
 	
@@ -14,19 +14,28 @@ public class Extras {
 	private String tipo;
 	private double costeAdicional;
 	
-	String conexion;
-	
-	public void conexionABD() {
-		conexion = 
-                "jdbc:sqlserver://yourserver.database.windows.net:1433;"
-                + "database=AdventureWorks;"
-                + "user=yourusername@yourserver;"
-                + "password=yourpassword;"
-                + "encrypt=true;"
-                + "trustServerCertificate=false;"
-                + "loginTimeout=30;";
+	public Extras() {
+		
 	}
 	
+	String conexion;
+    ResultSet resultSet = null;
+	
+	public String accesoURL() {
+		return conexion = 
+                "jdbc:mysql://localhost:3306/alquilercoches?serverTimezone=UTC";
+	}
+	
+	public String usuario() {
+		return conexion = 
+                "root";
+	}
+	
+	public String password() {
+		return conexion = 
+                "root";
+	}
+
 	
 	//GETTERS
 	
@@ -39,17 +48,6 @@ public class Extras {
 	}
 
 	public String getTipo() {
-		try (Connection conn = DriverManager.getConnection(conexion);){
-			
-			//TODO
-			//El código SQL de las consultas va aquí
-			
-		}
-		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 		return this.tipo;
 	}
 	
@@ -74,6 +72,61 @@ public class Extras {
 		
 	public void setCosteAdicional(double costeAdicional) {
 		this.costeAdicional = costeAdicional;
+	}
+	
+	
+	//MÉTODOS
+	
+	public ArrayList<String> getExtrasIdModelo(int modelo) { //DADO UN MODELO NOS DEVUELVE LOS EXTRAS
+		
+		ArrayList<String> extra = new ArrayList<String>();
+			
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+			Statement statement = conn.createStatement();) {
+
+	        // Create and execute a SELECT SQL statement.
+	        String selectSql = "SELECT tipo FROM alquilercoches.fichero_extras WHERE id_modelo= " + modelo;
+	        resultSet = statement.executeQuery(selectSql);
+
+            // Print results from select statement
+            while (resultSet.next()) {
+                //System.out.println(resultSet.getString(1));
+                extra.add(resultSet.getString(1));
+                	                
+            }
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return extra;
+	}
+	
+	public ArrayList<Double> getCosteAdicionalExtrasIdModelo(int modelo) { //DADO UN MODELO NOS DEVUELVE EL COSTE ADICIONAL DE LOS EXTRAS
+		
+		ArrayList<Double> extra = new ArrayList<Double>();
+			
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+			Statement statement = conn.createStatement();) {
+
+	        // Create and execute a SELECT SQL statement.
+	        String selectSql = "SELECT coste_adicional FROM alquilercoches.fichero_extras WHERE id_modelo= " + modelo;
+	        resultSet = statement.executeQuery(selectSql);
+
+            // Print results from select statement
+            while (resultSet.next()) {
+                //System.out.println(resultSet.getString(1));
+                extra.add(resultSet.getDouble(1));
+                	                
+            }
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return extra;
 	}
 	
 }
