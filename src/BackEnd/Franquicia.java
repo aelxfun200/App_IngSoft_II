@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Franquicia {
 	
@@ -13,6 +14,12 @@ public class Franquicia {
 	private String provincia;
 	private String ciudad;
 	private String direccion;
+	
+	//CONSTRUCTOR
+	
+	public Franquicia() {
+		
+	}
 	
 	String conexion;
     ResultSet resultSet = null;
@@ -37,30 +44,7 @@ public class Franquicia {
 	public int getIdFranquicia() {
 		return this.idFranquicia;
 	}
-	
-	public String getProvincia() {
-		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
-				Statement statement = conn.createStatement();) {
-
-	            // Create and execute a SELECT SQL statement.
-	            String selectSql = "SELECT * from alquilercoches.fichero_cliente";
-	            resultSet = statement.executeQuery(selectSql);
-
-	            // Print results from select statement
-	            while (resultSet.next()) {
-	                System.out.println(resultSet.getString(1));
-	            }
-			
-		}
 		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return this.provincia;
-	}
-	
-	
 	public String getCiudad() {
 		return this.ciudad;
 	}
@@ -86,6 +70,33 @@ public class Franquicia {
 	
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
+	}
+	
+	
+	//METODOS
+	
+	public ArrayList<String> getListaFranquicias() {
+		ArrayList<String> fran = new ArrayList<>();
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT ciudad from alquilercoches.fichero_franquicia";
+	            resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	               // System.out.println(resultSet.getString(1));
+	                fran.add("Franquicia " + resultSet.getString(1));
+	            }
+			
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return fran;
 	}
 
 }

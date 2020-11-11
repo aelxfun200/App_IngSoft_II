@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Modelos {
 	
@@ -20,18 +21,22 @@ public class Modelos {
 	private int agnio;
 	
 	String conexion;
+    ResultSet resultSet = null;
 	
-	public void conexionABD() {
-		conexion = 
-                "jdbc:sqlserver://yourserver.database.windows.net:1433;"
-                + "database=AdventureWorks;"
-                + "user=yourusername@yourserver;"
-                + "password=yourpassword;"
-                + "encrypt=true;"
-                + "trustServerCertificate=false;"
-                + "loginTimeout=30;";
+	public String accesoURL() {
+		return conexion = 
+                "jdbc:mysql://localhost:3306/alquilercoches?serverTimezone=UTC";
 	}
 	
+	public String usuario() {
+		return conexion = 
+                "root";
+	}
+	
+	public String password() {
+		return conexion = 
+                "root";
+	}
 	
 	//GETTERS
 	
@@ -39,18 +44,7 @@ public class Modelos {
 		return this.idModelo;
 	}
 	
-	public String getMarca() {
-		try (Connection conn = DriverManager.getConnection(conexion);){
-			
-			//TODO
-			//El código SQL de las consultas va aquí
-			
-		}
-		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+	public String getMarca() {	
 		return this.marca;
 	}
 	
@@ -119,6 +113,93 @@ public class Modelos {
 	
 	public void setAgnio(int agnio) {
 		this.agnio = agnio;
+	}
+	
+	//METODOS
+	
+	public ArrayList<String> getListaIdModelosDisponibles(String nombreFranquicia, boolean marca_o_modelo) {
+		ArrayList<String> fran = new ArrayList<>();
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT id_modelo FROM alquilercoches.fichero_coche WHERE id_franquicia = (SELECT id_franquicia FROM alquilercoches.fichero_franquicia WHERE ciudad = \""+ nombreFranquicia +"\" )";
+	            resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	               // System.out.println(resultSet.getString(1));
+	                fran.add(resultSet.getString(1));
+	            }
+			
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if (marca_o_modelo == true) {
+			getListaMarcasDisponibles(fran);
+		} else {
+			getListaModelosDisponibles(fran);
+		}
+		
+		return fran;
+	}
+	
+	
+	public ArrayList<String> getListaMarcasDisponibles(ArrayList<String> idMod) {
+		ArrayList<String> marcas = new ArrayList<String>();
+		int id;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+				Statement statement = conn.createStatement();) {
+			
+				for (int i = 0; i < idMod.size(); i++) {
+					id = Integer.parseInt(idMod.get(i));
+					
+		            // Create and execute a SELECT SQL statement.
+		            String selectSql = "SELECT marca FROM alquilercoches.fichero_modelo WHERE id_modelo = " + id;
+		            resultSet = statement.executeQuery(selectSql);
+		            while (resultSet.next()) {
+		            marcas.add(resultSet.getString(1));
+		            }
+				}
+					
+				}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(marcas.toString());
+		return marcas;
+	}
+	
+	public ArrayList<String> getListaModelosDisponibles(ArrayList<String> idMod) {
+		ArrayList<String> modelos = new ArrayList<String>();
+		int id;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+				Statement statement = conn.createStatement();) {
+			
+				for (int i = 0; i < idMod.size(); i++) {
+					id = Integer.parseInt(idMod.get(i));
+					
+		            // Create and execute a SELECT SQL statement.
+		            String selectSql = "SELECT nombre_modelo FROM alquilercoches.fichero_modelo WHERE id_modelo = " + id;
+		            resultSet = statement.executeQuery(selectSql);
+		            while (resultSet.next()) {
+		            modelos.add(resultSet.getString(1));
+		            }
+				}
+					
+				}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(modelos.toString());
+		return modelos;
 	}
 		
 }

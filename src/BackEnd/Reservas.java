@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Reservas {
 	
@@ -17,32 +18,40 @@ public class Reservas {
 	private String fechaInicio;
 	private String fechaFin;
 	
-	String conexion;
+	//CONSTRUCTOR
 	
-	public static void main (String[] args) {
+	public Reservas() {
 		
-		System.out.println("Esto es una prueba de configuración");
-	}
-
-	
-	public void conexionABD() {
-		conexion = 
-                "jdbc:sqlserver://yourserver.database.windows.net:1433;"
-                + "database=AdventureWorks;"
-                + "user=yourusername@yourserver;"
-                + "password=yourpassword;"
-                + "encrypt=true;"
-                + "trustServerCertificate=false;"
-                + "loginTimeout=30;";
 	}
 	
+	Clientes cl = new Clientes();
+	Franquicia fr = new Franquicia();
+	String conexion;
+    ResultSet resultSet = null;
+	ArrayList<String> fechas = new ArrayList<>();
+	
+	public String accesoURL() {
+		return conexion = 
+                "jdbc:mysql://localhost:3306/alquilercoches?serverTimezone=UTC";
+	}
+	
+	public String usuario() {
+		return conexion = 
+                "root";
+	}
+	
+	public String password() {
+		return conexion = 
+                "root";
+	}
+		
 	
 	//GETTERS
 	
 	public int getIdReserva() {
 		return this.idReserva;
 	}
-	
+			
 	public String getEstadoReserva() {
 		try (Connection conn = DriverManager.getConnection(conexion);){
 			
@@ -115,6 +124,55 @@ public class Reservas {
 	}
 	
 	
+	//METODOS
+	
+	public ArrayList<String> devFecha() {
+		
+		fechas.add("2020-11-12");
+		fechas.add("2020-11-13");
+		fechas.add("2020-11-14");
+		fechas.add("2020-11-15");
+		fechas.add("2020-11-16");
+		fechas.add("2020-11-17");
+		fechas.add("2020-11-18");
+		fechas.add("2020-11-19");
+		fechas.add("2020-11-20");
+		fechas.add("2020-11-21");
+		fechas.add("2020-11-22");
+		fechas.add("2020-11-23");
+		fechas.add("2020-11-24");
+		fechas.add("2020-11-25");
+		
+		return fechas;
+	}
+		
+	
+	public boolean compararIdCliente(String fecha) {
+		
+		boolean comp = false;
+		
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+			Statement statement = conn.createStatement();) {
+
+	        // Create and execute a SELECT SQL statement.
+	        String selectSql = "SELECT id_franquicia from alquilercoches.fichero_reserva WHERE ";
+	        resultSet = statement.executeQuery(selectSql);
+
+            // Print results from select statement
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString(1));
+                	                
+            }
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println(comp);
+		return comp;
+	}
 	
 
 }
