@@ -17,7 +17,7 @@ public class Reservas {
 	private String estadoReserva;
 	private String fechaInicio;
 	private String fechaFin;
-
+	
 	
 	//CONSTRUCTOR
 	
@@ -28,6 +28,8 @@ public class Reservas {
 	String conexion;
     ResultSet resultSet = null;
 	ArrayList<String> fechas = new ArrayList<>();
+	int id_columna = 0;
+	Clientes cl = new Clientes();
 	
 	public String accesoURL() {
 		return conexion = 
@@ -145,7 +147,6 @@ public class Reservas {
 		int id = 0;
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		
-		
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 				Statement statement = conn.createStatement();) {
 
@@ -176,7 +177,6 @@ public class Reservas {
 		System.out.println("---------------------------------------------------------------");
 		System.out.println(getFechaFin());
 		System.out.println(getFechaInicio());
-		System.out.println(getIdReserva());
 		System.out.println(getEstadoReserva());
 		System.out.println(id_cliente);
 		
@@ -202,7 +202,46 @@ public class Reservas {
 		
 	}
 	
-	           
+	// UPDATE `alquilercoches`.`fichero_reserva` SET `estado_reserva` = 'finalizada' WHERE (`id_coche` = '5200') and (`id_modelo` = '3') and (`id_franquicia` = '7') and (`id_cliente` = '30858283') and (`id_reserva` = '26');
+	public void aceptarReserva(int id_cliente, int id_coche) {
 
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT id_reserva from alquilercoches.fichero_reserva WHERE (id_coche = " + id_coche + "&& id_cliente = " + id_cliente + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	                id_columna = resultSet.getInt(1);                                
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+		if (cl.validarTarjeta(0) == true) {
+			String updateSql = "UPDATE alquilercoches.fichero_reserva SET `estado_reserva` = 'ACEPTADA' WHERE (id_coche = \"" + id_columna + "\")";
+			
+			try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				PreparedStatement prepUpdateProduct = conn.prepareStatement(updateSql, Statement.RETURN_GENERATED_KEYS);) {        
+
+		        prepUpdateProduct.execute();
+		        // Retrieve the generated key from the insert.
+		        resultSet = prepUpdateProduct.getGeneratedKeys();
+
+		        // Print the ID of the inserted row.
+		        while (resultSet.next()) {
+		            System.out.println("Generated: " + resultSet.getString(1));
+		        }
+		    }
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}				
 	
 }

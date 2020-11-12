@@ -24,7 +24,7 @@ public class Main {
 		System.out.println(ext.getCosteAdicionalExtrasIdModelo(ext.getIdModelo())); //METODO QUE ME DEVUELVE EL COSTE ADICIONAL DE LOS EXTRAS A METER EN LA RESERVA
 		System.out.println(cch.getCochesDelModelo(ext.getIdModelo()));  //METODO QUE DEVUELVE TODOS LOS COCHES DE UN MODELO SELECCIONADO
 		cch.setIdCoche();
-		System.out.println(cch.getIdCoche());  //METODO QUE DEVUELVE LA MATRICULA SIN NUMEROS DE UN COCHE, HABIENDO ELEGIDO PREVIAMENTE EL MODELO DE COCHE QUE SE QUIERE
+		System.out.println("EL ID DEL COCHE ES: " + cch.getIdCoche());  //METODO QUE DEVUELVE LA MATRICULA SIN NUMEROS DE UN COCHE, HABIENDO ELEGIDO PREVIAMENTE EL MODELO DE COCHE QUE SE QUIERE
 		res.setFechaInicio("2020/11/20");
 		res.setFechaFin("2020/12/15");	
 		res.setEstadoReserva("reservado");
@@ -32,7 +32,14 @@ public class Main {
 		res.setIdFranquicia(7);
 		res.setIdModelo(3);
 		res.altaReserva(cl.getIdCliente());  //METODO QUE DA DE ALTA UNA NUEVA RESERVA
-		
+		System.out.println("NUMERO DE TARJETA: " + cl.devNumTarjeta(1));
+		System.out.println("CADUCIDAD DE LA TARJETA: " + cl.devCaducidadTarjeta(1));
+		System.out.println("NUMERO SECRETO DE TARJETA: " + cl.devNumSecreto(1));
+		cl.setNumTarjeta("5545814130598993");
+		cl.setCadTarjeta("10/2022");
+		cl.setNumSecretoTarjeta("616");
+		//System.out.println(cl.validarTarjeta("5545814130598993", "10/2022", "616"));
+		res.aceptarReserva(cl.getIdCliente(), cch.getIdCoche());
 	}
 	
 }
