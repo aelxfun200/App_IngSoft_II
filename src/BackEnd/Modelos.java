@@ -116,7 +116,7 @@ public class Modelos {
 	
 	//METODOS
 	
-	public ArrayList<String> getListaIdModelosDisponibles(String nombreFranquicia, boolean marca_o_modelo) {
+	public ArrayList<String> getListaIdModelosDisponibles(String nombreFranquicia/*, boolean marca_o_modelo*/) {
 		ArrayList<String> fran = new ArrayList<>();
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 				Statement statement = conn.createStatement();) {
@@ -137,11 +137,11 @@ public class Modelos {
 			e.printStackTrace();
 		}
 		
-		if (marca_o_modelo == true) {
+		/*if (marca_o_modelo == true) {
 			getListaMarcasDisponibles(fran);
 		} else {
 			getListaModelosDisponibles(fran);
-		}
+		}*/
 		
 		return fran;
 	}
@@ -170,7 +170,7 @@ public class Modelos {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(marcas.toString());
+		//System.out.println( "MARCAS DISPONIBLES: " + marcas.toString());
 		return marcas;
 	}
 	
@@ -197,7 +197,7 @@ public class Modelos {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(modelos.toString());
+		//System.out.println("MODELOS DISPONIBLES: " + modelos.toString());
 		return modelos;
 	}
 		

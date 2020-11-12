@@ -10,9 +10,14 @@ import java.util.ArrayList;
 public class Reservas {
 	
 	private int idReserva;
+	private int idCliente;
+	private int idModelo;
+	private int idFranquicia;
+	private int idCoche;
 	private String estadoReserva;
 	private String fechaInicio;
 	private String fechaFin;
+
 	
 	//CONSTRUCTOR
 	
@@ -20,11 +25,6 @@ public class Reservas {
 		
 	}
 	
-	Clientes cl = new Clientes();
-	Franquicia fr = new Franquicia();
-	Coches cch = new Coches();
-	Modelos md = new Modelos();
-	Facturas fc = new Facturas(); 
 	String conexion;
     ResultSet resultSet = null;
 	ArrayList<String> fechas = new ArrayList<>();
@@ -50,19 +50,24 @@ public class Reservas {
 	public int getIdReserva() {
 		return this.idReserva;
 	}
+	
+	public int getIdCliente() {
+		return this.idCliente;
+	}
+	
+	public int getIdModelo() {
+		return this.idModelo;
+	}
+	
+	public int getIdFranquicia() {
+		return this.idFranquicia;
+	}
+	
+	public int getIdCoche() {
+		return this.idCoche;
+	}
 			
 	public String getEstadoReserva() {
-		try (Connection conn = DriverManager.getConnection(conexion);){
-			
-			//TODO
-			//El código SQL de las consultas va aquí
-			
-		}
-		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 		return this.estadoReserva;
 	}
 	
@@ -77,13 +82,37 @@ public class Reservas {
 	
 
 	// SETTERS DE LOS ATRIBUTOS
+	
+	public void setIdReserva(int idReserva) {
+		this.idReserva = idReserva;
+	}
+	
+	public void setIdCoche(int idCoche) {
+		this.idCoche = idCoche;
+	}
+	
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+		
+	public void setIdModelo(int idModelo) {
+		this.idModelo = idModelo;
+	}
+	
+	public void setIdFranquicia(int idFranqucia) {
+		this.idFranquicia = idFranqucia;
+	}
 		
 	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 	
 	public void setFechaFin(String fechaFin) {
-		this.fechaInicio = fechaFin;
+		this.fechaFin = fechaFin;
+	}
+	
+	public void setEstadoReserva(String estadoReserva) {
+		this.estadoReserva = estadoReserva;
 	}
 	
 	
@@ -111,12 +140,48 @@ public class Reservas {
 		
 	//METODOS
 
-	//INSERT INTO `alquilercoches`.`fichero_reserva` (`id_reserva`, `id_coche`, `id_modelo`, `id_franquicia`, `id_factura`, `estado_reserva`, `fecha_inicio`, `fecha_fin`, `id_cliente`) VALUES ('3', '2222', '1', '2', '3', 'denegado', '2020-11-11', '2020-11-19', '22222222');
-	
-	public void altaReserva(int id_cliente) {	
+	public int nuevoIdReserva() {
+		int reserva;
+		int id = 0;
+		ArrayList<Integer> ids = new ArrayList<Integer>();
 		
-		String insertSql = "INSERT INTO alquilercoches.fichero_reserva (`id_coche`, `id_modelo`, `id_franquicia`, `id_factura`, `estado_reserva`, `fecha_inicio`, `fecha_fin`, `id_cliente`) "
-				+ "VALUES ( " + cch.getIdCoche() + ", " + md.getIdModelo() + ", " + fr.getIdFranquicia() + ", " + fc.getIdFactura() + ", \"" + getEstadoReserva() +"\", \"" + getFechaInicio() +"\", \"" + getFechaFin() + "\"," + cl.getIdCliente() +") ";
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT id_reserva from alquilercoches.fichero_reserva";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	                ids.add(resultSet.getInt(1));                                
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+		for(int i = 0; i < ids.size(); i++) {
+			id = ids.get(i);
+		}
+		reserva = id + 1;
+		return reserva;
+	}
+	
+	
+	public void altaReserva(int id_cliente) {
+		
+		System.out.println("---------------------------------------------------------------");
+		System.out.println(getFechaFin());
+		System.out.println(getFechaInicio());
+		System.out.println(getIdReserva());
+		System.out.println(getEstadoReserva());
+		System.out.println(id_cliente);
+		
+		String insertSql = "INSERT INTO alquilercoches.fichero_reserva (`id_reserva`, `id_coche`, `id_modelo`, `id_franquicia`, `estado_reserva`, `fecha_inicio`, `fecha_fin`, `id_cliente`) "
+				+ "VALUES ( " +	nuevoIdReserva() + ", " + getIdCoche() + ", " + getIdModelo() + ", " + getIdFranquicia() + ", \"" + getEstadoReserva() +"\", \"" + getFechaInicio() +"\", \"" + getFechaFin() + "\"," + id_cliente +") ";
 		
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 			PreparedStatement prepsInsertProduct = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);) {        
