@@ -21,6 +21,10 @@ public class Facturas {
 	private String estadoFactura;
 	private String tipoPago;
 	
+	public Facturas() {
+		
+	}
+	
 	int id_columna;
 	
 	String conexion;
@@ -249,6 +253,35 @@ public class Facturas {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String informesDiarios(String tipoP) {
+		String importeTotal = "";
+		int tt = 0;
+		ArrayList<Integer> total = new ArrayList<Integer>();
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT importe from alquilercoches.fichero_factura WHERE (tipo_pago = \"" + tipoP + "\")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	                 total.add(resultSet.getInt(1));                                
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		for(int i = 0; i < total.size(); i++) {
+			 tt = tt + total.get(i);
+		}
+		
+		importeTotal = "El importe total es:" + String.valueOf(tt);		
+		return importeTotal;
 	}
 	
 

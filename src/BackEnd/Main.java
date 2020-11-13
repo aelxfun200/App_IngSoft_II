@@ -33,7 +33,7 @@ public class Main {
 		res.setIdCoche(cch.getIdCoche());
 		res.setIdFranquicia(7);
 		res.setIdModelo(3);
-		//res.altaReserva(cl.getIdCliente());  //METODO QUE DA DE ALTA UNA NUEVA RESERVA
+		res.altaReserva(cl.getIdCliente());  //METODO QUE DA DE ALTA UNA NUEVA RESERVA
 		System.out.println("+++++++++++++++++++++++ ACEPTAR RESERVA +++++++++++++++++++++++++++++++++++++++++++++++++");
 		System.out.println("EL ID DEL PROPIETARIO DE LA TARJETA ES: " +  cl.devIdPropTarjeta(1));
 		System.out.println("NUMERO DE TARJETA: " + cl.devNumTarjeta(1));
@@ -82,6 +82,9 @@ public class Main {
 		System.out.println("+++++++++++++++++++++++ DEVOLUCION COCHE Y FIN RESERVA +++++++++++++++++++++++++++++++++++++++++");	
 		res.setIdCoche(5200);
 		res.devolucionCoche(res.getIdCoche());
+		
+		System.out.println("+++++++++++++++++++++++++++++++ GENERAR IMFORME DIARIO +++++++++++++++++++++++++++++++++++++++++");	
+		System.out.println(ft.informesDiarios("tarjeta"));
 		
 	}
 	
