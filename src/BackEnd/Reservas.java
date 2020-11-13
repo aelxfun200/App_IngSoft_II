@@ -14,6 +14,7 @@ public class Reservas {
 	private int idModelo;
 	private int idFranquicia;
 	private int idCoche;
+	private int idCocheAnt;
 	private String estadoReserva;
 	private String fechaInicio;
 	private String fechaFin;
@@ -30,6 +31,8 @@ public class Reservas {
 	ArrayList<String> fechas = new ArrayList<>();
 	int id_columna = 0;
 	Clientes cl = new Clientes();
+	Coches cch = new Coches();
+	Facturas ft = new Facturas();
 	
 	public String accesoURL() {
 		return conexion = 
@@ -51,6 +54,10 @@ public class Reservas {
 	
 	public int getIdReserva() {
 		return this.idReserva;
+	}
+	
+	public int getIdCocheAntiguo() {
+		return this.idCocheAnt;
 	}
 	
 	public int getIdCliente() {
@@ -91,6 +98,10 @@ public class Reservas {
 	
 	public void setIdCoche(int idCoche) {
 		this.idCoche = idCoche;
+	}
+	
+	public void setIdCocheAnt(int idCocheAnt) {
+		this.idCocheAnt = idCocheAnt;
 	}
 	
 	public void setIdCliente(int idCliente) {
@@ -173,8 +184,7 @@ public class Reservas {
 	
 	
 	public void altaReserva(int id_cliente) {
-		
-		System.out.println("---------------------------------------------------------------");
+		System.out.println("------------------------ parametros del alta de la reserva---------------------");
 		System.out.println(getFechaFin());
 		System.out.println(getFechaInicio());
 		System.out.println(getEstadoReserva());
@@ -203,7 +213,7 @@ public class Reservas {
 	}
 	
 	// UPDATE `alquilercoches`.`fichero_reserva` SET `estado_reserva` = 'finalizada' WHERE (`id_coche` = '5200') and (`id_modelo` = '3') and (`id_franquicia` = '7') and (`id_cliente` = '30858283') and (`id_reserva` = '26');
-	public void aceptarReserva(int id_cliente, int id_coche) {
+	public void aceptarReserva(int id_cliente, int id_coche, String tarjeta, String cadT, String numSecT) {
 
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 				Statement statement = conn.createStatement();) {
@@ -214,7 +224,7 @@ public class Reservas {
 
 	            // Print results from select statement
 	            while (resultSet.next()) {
-	                id_columna = resultSet.getInt(1);                                
+	                System.out.println(id_columna = resultSet.getInt(1));                                
 	            }
 			}
 			
@@ -222,8 +232,9 @@ public class Reservas {
 				e.printStackTrace();
 			}
 		
-		if (cl.validarTarjeta(0) == true) {
-			String updateSql = "UPDATE alquilercoches.fichero_reserva SET `estado_reserva` = 'ACEPTADA' WHERE (id_coche = \"" + id_columna + "\")";
+		if (validarTarjeta(cl.devolverPosArray(id_cliente), tarjeta, cadT, numSecT) == true) {
+			System.out.println("La tarjeta introducida por el cliente es válida");
+			String updateSql = "UPDATE alquilercoches.fichero_reserva SET `estado_reserva` = \"ACEPTADA\" WHERE (id_reserva = "+ id_columna + ")";
 			
 			try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 				PreparedStatement prepUpdateProduct = conn.prepareStatement(updateSql, Statement.RETURN_GENERATED_KEYS);) {        
@@ -241,7 +252,127 @@ public class Reservas {
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
+					
+			String updateDisponibilidadSql = "UPDATE alquilercoches.fichero_coche SET estado_coche = \"no_disponible\" WHERE (matricula = "+ id_coche + ")";
+			
+			try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				PreparedStatement prepUpdateProduct = conn.prepareStatement(updateDisponibilidadSql, Statement.RETURN_GENERATED_KEYS);) {        
+
+		        prepUpdateProduct.execute();
+		        // Retrieve the generated key from the insert.
+		        resultSet = prepUpdateProduct.getGeneratedKeys();
+
+		        // Print the ID of the inserted row.
+		        while (resultSet.next()) {
+		            System.out.println("Generated: " + resultSet.getString(1));
+		        }
+		    }
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		} else {
+			System.out.println("Tarjeta introducida no válida");
 		}
-	}				
+	}	
+	
+	public boolean validarTarjeta(int i, String tarjeta, String cadT, String numSecT) {
+		boolean valido = false;
+		
+		if(cl.devNumTarjeta(i).equals(tarjeta) && cl.devCaducidadTarjeta(i).equals(cadT) && cl.devNumSecreto(i).equals(numSecT)) {
+			valido = true;
+		}
+		
+		return valido;
+	}
+	
+	
+	public void modificarReserva(int id_cliente, int id_coche) {
+		System.out.println("Se procede a la modificación de la reserva");
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT id_reserva from alquilercoches.fichero_reserva WHERE (id_coche = " + id_coche + "&& id_cliente = " + id_cliente + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	                id_columna = resultSet.getInt(1);                                
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		cch.modificarEstadoCoches(id_coche, "disponible");
+		
+		String updateSql = "UPDATE alquilercoches.fichero_reserva SET estado_reserva = \"reservado\", id_coche = " + getIdCoche() + ",id_modelo = " + getIdModelo() + ", id_franquicia = " + getIdFranquicia() + ", fecha_inicio = \"" + getFechaInicio()  + "\", fecha_fin = \"" + getFechaFin() + "\" WHERE (id_reserva = "+ id_columna + ")";
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+			PreparedStatement prepUpdateProduct = conn.prepareStatement(updateSql, Statement.RETURN_GENERATED_KEYS);) {        
+
+	        prepUpdateProduct.execute();
+	        // Retrieve the generated key from the insert.
+	        resultSet = prepUpdateProduct.getGeneratedKeys();
+
+	        // Print the ID of the inserted row.
+	        while (resultSet.next()) {
+	            System.out.println("Generated: " + resultSet.getString(1));
+	        }
+	    }
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		cch.modificarEstadoCoches(getIdCoche(), "no_disponible");
+			
+	}
+	
+	public void devolucionCoche(int id_coche) {
+		System.out.println("Se procede a la devolucion del coche");
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT id_reserva from alquilercoches.fichero_reserva WHERE (id_coche = " + id_coche + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	                id_columna = resultSet.getInt(1);                                
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		String updateSql = "UPDATE alquilercoches.fichero_reserva SET estado_reserva = \"finalizada\" WHERE (id_reserva = "+ id_columna + ")";
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+			PreparedStatement prepUpdateProduct = conn.prepareStatement(updateSql, Statement.RETURN_GENERATED_KEYS);) {        
+
+	        prepUpdateProduct.execute();
+	        // Retrieve the generated key from the insert.
+	        resultSet = prepUpdateProduct.getGeneratedKeys();
+
+	        // Print the ID of the inserted row.
+	        while (resultSet.next()) {
+	            System.out.println("Generated: " + resultSet.getString(1));
+	        }
+	    }
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		cch.modificarEstadoCoches(id_coche, "disponible");
+		ft.modificarEstadoDactura(id_coche, "finalizada");
+	}
 	
 }

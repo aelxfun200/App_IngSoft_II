@@ -2,6 +2,7 @@ package BackEnd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -88,7 +89,30 @@ public class Coches {
 		return matricula;
 	}
 	
-	
+	public void modificarEstadoCoches(int id_coche, String tipoEstado) {
+		System.out.println("Se modifica el estado del coche");
+		System.out.println("Las posibilidades son: disponible, no_disponible, en_revision_por_mantenimiento, en_revision_por_golpe, baja");
+		System.out.println("En este caso el estado se cambia a: " + tipoEstado);
+
+		String updateSql = "UPDATE alquilercoches.fichero_coche SET estado_coche = \"" + tipoEstado +"\" WHERE ( matricula = "+ id_coche + ")";
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+			PreparedStatement prepUpdateProduct = conn.prepareStatement(updateSql, Statement.RETURN_GENERATED_KEYS);) {        
+
+	        prepUpdateProduct.execute();
+	        // Retrieve the generated key from the insert.
+	        resultSet = prepUpdateProduct.getGeneratedKeys();
+
+	        // Print the ID of the inserted row.
+	        while (resultSet.next()) {
+	            System.out.println("Generated: " + resultSet.getString(1));
+	        }
+	    }
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 
 }

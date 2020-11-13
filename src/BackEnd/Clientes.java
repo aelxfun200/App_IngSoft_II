@@ -16,12 +16,12 @@ public class Clientes {
 	ArrayList<String> tarjetas = new ArrayList<String>();
 	
 	public Clientes() {
-		tarjetas.add("5518931840652861-12/2024-612");
-		tarjetas.add("5545814130598993-10/2022-616");
-		tarjetas.add("4654654654564633-05/2021-123");
-		tarjetas.add("7892145489231541-11/2022-596");
-		tarjetas.add("8984654215848135-01/2025-616");
-		tarjetas.add("9874512811315831-09/2023-363");
+		tarjetas.add("30858283-5518931840652861-12/2024-612");
+		tarjetas.add("32399540-5545814130598993-10/2022-616");
+		tarjetas.add("42401030-4654654654564633-05/2021-123");
+		tarjetas.add("76176722-7892145489231541-11/2022-596");
+		tarjetas.add("98999652-8984654215848135-01/2025-616");
+		tarjetas.add("89562158-9874512811315831-09/2023-363");
 	}
 	
 	String conexion;
@@ -111,33 +111,40 @@ public class Clientes {
 		return comp;
 	}
 	
+	public int devIdPropTarjeta(int i) {
+		int id = 0;
+		id = Integer.parseInt(tarjetas.get(i).toString().substring(0,tarjetas.get(i).toString().length()-29));	
+		return id;
+	}
+	
 	public String devNumTarjeta(int i) {
 		String numTarj = "";
-		numTarj = tarjetas.get(i).toString().substring(0,tarjetas.get(i).toString().length()-12);
+		numTarj = tarjetas.get(i).toString().substring(9,tarjetas.get(i).toString().length()-12);
 		return numTarj;
 	}
 	
 	public String devCaducidadTarjeta(int i) {
 		String cadTarj = "";
-		cadTarj = tarjetas.get(i).toString().substring(17,tarjetas.get(i).toString().length()-4);
+		cadTarj = tarjetas.get(i).toString().substring(26,tarjetas.get(i).toString().length()-4);
 		return cadTarj;
 	}
 	
 	public String devNumSecreto(int i) {
 		String numSecTarj = "";
-		numSecTarj = tarjetas.get(i).toString().substring(25,tarjetas.get(i).toString().length()-0);
+		numSecTarj = tarjetas.get(i).toString().substring(34,tarjetas.get(i).toString().length()-0);
 		return numSecTarj;
 	}
 	
 	
-	public boolean validarTarjeta(int i) {
-		boolean valido = false;
-		
-		if(devNumTarjeta(i).equals(getNumTarjeta()) && devCaducidadTarjeta(i).equals(getCadTarjeta()) && devNumSecreto(i).equals(getNumSecretoTarjeta())) {
-			valido = true;
-		}
-		
-		return valido;
+	public int devolverPosArray(int i) {
+		int pos = 0;
+		for(int j = 0; j<tarjetas.size(); j++) {
+			if (devIdPropTarjeta(j) == i) {
+				pos = j;	
+			}			
+		}	
+		return pos;
 	}
 	
+
 }
