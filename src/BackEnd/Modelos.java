@@ -136,13 +136,7 @@ public class Modelos {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		/*if (marca_o_modelo == true) {
-			getListaMarcasDisponibles(fran);
-		} else {
-			getListaModelosDisponibles(fran);
-		}*/
-		
+			
 		return fran;
 	}
 	
@@ -199,6 +193,31 @@ public class Modelos {
 		}
 		//System.out.println("MODELOS DISPONIBLES: " + modelos.toString());
 		return modelos;
+	}
+	
+	
+	public int getIdModeloSeleccionado(String marca, String modelo) {
+		int id = 0;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT id_modelo FROM alquilercoches.fichero_modelo WHERE marca = \"" + marca + "\" && nombre_modelo = \"" + modelo + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	               // System.out.println(resultSet.getString(1));
+	                id = resultSet.getInt(1);
+	            }
+			
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+			
+		return id;
 	}
 		
 }
