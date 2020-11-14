@@ -90,7 +90,7 @@ public class Franquicia {
 	            // Print results from select statement
 	            while (resultSet.next()) {
 	               // System.out.println(resultSet.getString(1));
-	                fran.add("Franquicia " + resultSet.getString(1));
+	                fran.add("Franquicia " + resultSet.getString(1));  //quitar el nombre
 	            }
 			
 		}

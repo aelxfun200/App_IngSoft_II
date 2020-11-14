@@ -174,7 +174,7 @@ public class Modelos {
 		return marcas;
 	}
 	
-	public ArrayList<String> getListaModelosDisponibles(ArrayList<String> idMod) {
+	public ArrayList<String> getListaModelosDisponibles(ArrayList<String> idMod, String marca) {
 		ArrayList<String> modelos = new ArrayList<String>();
 		int id;
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
@@ -185,7 +185,7 @@ public class Modelos {
 					id = Integer.parseInt(idMod.get(i));
 					
 		            // Create and execute a SELECT SQL statement.
-		            String selectSql = "SELECT nombre_modelo FROM alquilercoches.fichero_modelo WHERE id_modelo = " + id;
+		            String selectSql = "SELECT nombre_modelo FROM alquilercoches.fichero_modelo WHERE id_modelo = " + id + "&& marca = \"" + marca + "\"" ;
 		            resultSet = statement.executeQuery(selectSql);
 		            while (resultSet.next()) {
 		            modelos.add(resultSet.getString(1));

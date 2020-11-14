@@ -33,6 +33,7 @@ public class Reservas {
 	Clientes cl = new Clientes();
 	Coches cch = new Coches();
 	Facturas ft = new Facturas();
+	ArrayList<Reservas> reserva = new ArrayList<Reservas>();
 	
 	public String accesoURL() {
 		return conexion = 
@@ -375,4 +376,36 @@ public class Reservas {
 		ft.modificarEstadoDactura(id_coche, "finalizada");
 	}
 	
+	public ArrayList<Reservas> listarReservas(int id_cliente) {
+		ArrayList<Reservas> r = new ArrayList<Reservas>();
+		Reservas res = new Reservas();
+
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT id_reserva, estado_reserva, fecha_inicio, fecha_fin, id_coche from alquilercoches.fichero_reserva WHERE (id_cliente = " + id_cliente + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	res.setIdCocheAnt(resultSet.getInt(5));
+	            	res.setIdReserva(resultSet.getInt(1)); 
+	            	res.setEstadoReserva(resultSet.getString(2));
+	            	res.setFechaInicio(resultSet.getString(3));
+	            	res.setFechaFin(resultSet.getString(4));
+	            	res.setIdCoche(resultSet.getInt(5));
+	            	r.add(res);
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		return r;
+	}
+	
+
 }

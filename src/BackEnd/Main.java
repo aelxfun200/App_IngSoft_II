@@ -21,7 +21,7 @@ public class Main {
 		fr.setCiudad("Mérida");
 		System.out.println("ID'S DEL MODELOS: " + md.getListaIdModelosDisponibles(fr.getCiudad())); //METODO PARA DEVOLVER LOS ID'S DE LOS MODELOS QUE HAY EN UNA FRANQUICIA SI HAY COCHES DISPONIBLES DE ESE MODELO
 		ext.setIdModelo(3);	
-		System.out.println("MODELOS DISPONIBLES(main): " + md.getListaModelosDisponibles(md.getListaIdModelosDisponibles(fr.getCiudad()))); //METODO PARA DEVOLVER LOS MODELOS DISPONIBLES EN UNA FRANQUICIA
+		System.out.println("MODELOS DISPONIBLES(main): " + md.getListaModelosDisponibles(md.getListaIdModelosDisponibles(fr.getCiudad()), "Audi")); //METODO PARA DEVOLVER LOS MODELOS DISPONIBLES EN UNA FRANQUICIA
 		System.out.println("MARCAS DISPONIBLES(main): " + md.getListaMarcasDisponibles(md.getListaIdModelosDisponibles(fr.getCiudad()))); //METODO PARA DEVOLVER LAS MARCAS DISPONIBLES EN UNA FRANQUICIA
 		System.out.println(ext.getExtrasIdModelo(ext.getIdModelo()) + " EXTRAS"); //METODO QUE ME DEFINE LOS EXTRAS A METER EN LA RESERVA
 		System.out.println(ext.getCosteAdicionalExtrasIdModelo(ext.getIdModelo())); //METODO QUE ME DEVUELVE EL COSTE ADICIONAL DE LOS EXTRAS A METER EN LA RESERVA
@@ -34,7 +34,7 @@ public class Main {
 		res.setIdCoche(cch.getIdCoche());
 		res.setIdFranquicia(7);
 		res.setIdModelo(3);
-		//res.altaReserva(cl.getIdCliente());  //METODO QUE DA DE ALTA UNA NUEVA RESERVA
+		res.altaReserva(cl.getIdCliente());  //METODO QUE DA DE ALTA UNA NUEVA RESERVA
 		System.out.println("+++++++++++++++++++++++ ACEPTAR RESERVA +++++++++++++++++++++++++++++++++++++++++++++++++");
 		System.out.println("EL ID DEL PROPIETARIO DE LA TARJETA ES: " +  cl.devIdPropTarjeta(1));
 		System.out.println("NUMERO DE TARJETA: " + cl.devNumTarjeta(1));
@@ -45,7 +45,7 @@ public class Main {
 		cl.setNumSecretoTarjeta("616"); // ***
 		System.out.println(cl.devolverPosArray(32399540));
 		//System.out.println(cl.validarTarjeta("5545814130598993", "10/2022", "616"));
-		//res.aceptarReserva(cl.getIdCliente(), cch.getIdCoche(), "5518931840652861", "12/2024", "612" ); //METODO PARA ACEPTAR LAS RESERVAS, PREVIAMENTE HABIEDNO VALIDADO LA TARJETA DE CREDITO
+		res.aceptarReserva(cl.getIdCliente(), cch.getIdCoche(), "5518931840652861", "12/2024", "612" ); //METODO PARA ACEPTAR LAS RESERVAS, PREVIAMENTE HABIEDNO VALIDADO LA TARJETA DE CREDITO
 		
 		// CUANDO SE ACEPTA LA RESERVA SE CREA UNA NUEVA FACTURA PARA ESA RESERVA
 		ft.setImporte(5.2);
@@ -56,7 +56,7 @@ public class Main {
 		ft.setIdModelo(res.getIdModelo());
 		ft.setIdFranquicia(res.getIdFranquicia());
 		ft.setIdTarifa(2);
-		//ft.crearFactura(ft.getIdCoche(),ft.getIdCliente(), ft.getIdTarifa(), ft.getIdModelo(), ft.getIdFranquicia());  //METODO PARA CREAR UNA FACTURA UNA VEZ QUE SE HA ACPETADO UNA RESERVA
+		ft.crearFactura(ft.getIdCoche(),ft.getIdCliente(), ft.getIdTarifa(), ft.getIdModelo(), ft.getIdFranquicia());  //METODO PARA CREAR UNA FACTURA UNA VEZ QUE SE HA ACPETADO UNA RESERVA
 		
 		System.out.println("+++++++++++++++++++++++ MODIFICAR RESERVA +++++++++++++++++++++++++++++++++++++++++++++++++");	
 		res.setIdCocheAnt(cch.getIdCoche());
@@ -64,7 +64,7 @@ public class Main {
 		System.out.println(fr.getListaFranquicias().toString()); //METODO PARA DEVOLVER TODAS LAS FRANQUICIAS (LA FECHA DA UN POCO IGUAL PORQUE NO ESTAN LOS CAMPOS EN LA BD DEFINIDOS...)
 		fr.setCiudad("Madrid");
 		System.out.println("ID'S DEL MODELOS: " + md.getListaIdModelosDisponibles(fr.getCiudad())); //METODO PARA DEVOLVER LOS ID'S DE LOS MODELOS QUE HAY EN UNA FRANQUICIA SI HAY COCHES DISPONIBLES DE ESE MODELO	
-		System.out.println("MODELOS DISPONIBLES(main): " + md.getListaModelosDisponibles(md.getListaIdModelosDisponibles(fr.getCiudad()))); //METODO PARA DEVOLVER LOS MODELOS DISPONIBLES EN UNA FRANQUICIA
+		System.out.println("MODELOS DISPONIBLES(main): " + md.getListaModelosDisponibles(md.getListaIdModelosDisponibles(fr.getCiudad()), "Audi")); //METODO PARA DEVOLVER LOS MODELOS DISPONIBLES EN UNA FRANQUICIA
 		System.out.println("MARCAS DISPONIBLES(main): " + md.getListaMarcasDisponibles(md.getListaIdModelosDisponibles(fr.getCiudad()))); //METODO PARA DEVOLVER LAS MARCAS DISPONIBLES EN UNA FRANQUICIA
 		ext.setIdModelo(7);
 		System.out.println(ext.getExtrasIdModelo(ext.getIdModelo()) + " EXTRAS"); //METODO QUE ME DEFINE LOS EXTRAS A METER EN LA RESERVA
@@ -78,7 +78,7 @@ public class Main {
 		res.setIdCoche(cch.getIdCoche());
 		res.setIdFranquicia(1);
 		res.setIdModelo(7);		
-		//res.modificarReserva(cl.getIdCliente(), res.getIdCocheAntiguo()); // METODO PARA REALIZAR LA MODIFICACION DE UNA RESERVA
+		res.modificarReserva(cl.getIdCliente(), res.getIdCocheAntiguo()); // METODO PARA REALIZAR LA MODIFICACION DE UNA RESERVA
 
 		System.out.println("+++++++++++++++++++++++ DEVOLUCION COCHE Y FIN RESERVA +++++++++++++++++++++++++++++++++++++++++");	
 		res.setIdCoche(5200);
@@ -90,6 +90,8 @@ public class Main {
 		
 		ts.tarias();
 		System.out.println(ts.tarifaResultante("A3", "para_100km"));
+		
+		System.out.println(res.listarReservas(30858283).toString());
 		
 		
 	}
