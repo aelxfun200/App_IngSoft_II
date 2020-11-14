@@ -25,7 +25,9 @@ public class Facturas {
 		
 	}
 	
-	int id_columna;
+	public int id_columna;
+	Tarifas tf = new Tarifas();
+	Extras ext = new Extras();
 	
 	String conexion;
     ResultSet resultSet = null;
@@ -171,7 +173,7 @@ public class Facturas {
 	
 	// INSERT INTO `alquilercoches`.`fichero_factura` (`id_factura`, `id_tarifa`, `importe`, `estado_factura`, `tipo_pago`, `id_reserva`, `matricula`, `id_modelo`, `id_franquicia`, `id_cliente`) VALUES ('1', '2', '52.20', 'pendiente', 'tarjeta', '3', '5532', '7', '1', '30858283');
 	
-	public void crearFactura(int id_coche, int id_cliente, int id_tarifa, int id_modelo, int id_franquicia) {
+	public void crearFactura(int id_coche, int id_cliente, int id_tarifa, int id_modelo, int id_franquicia, String tipo_Tarifa) {
 		System.out.println("Se procede a crear la factura para la reserva aceptada");
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 			Statement statement = conn.createStatement();) {
@@ -190,6 +192,10 @@ public class Facturas {
 			e.printStackTrace();
 				
 		}
+		
+		tf.setTipoTarifa(tipo_Tarifa);
+		System.out.println(" el id de la resrva es: " + id_columna);
+		setImporte(tf.tarifaResultante(id_modelo, id_columna, 11));
 		
 		String insertSql = "INSERT INTO alquilercoches.fichero_factura (`id_factura`, `id_tarifa`, `importe`, `estado_factura`, `tipo_pago`, `id_reserva`, `matricula`, `id_modelo`, `id_franquicia`, `id_cliente`) "
 				+ "VALUES ( " +	nuevoIdFactura() + ", " + id_tarifa + ", \"" + getImporte() + "\", \"" +  getEstadoFactura() + "\", \"" +  getTipoPago() + "\", " + id_columna + ", " + id_coche + ", " + id_modelo + ", " + id_franquicia + ", " + id_cliente + " )";

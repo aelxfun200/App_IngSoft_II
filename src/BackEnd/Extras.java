@@ -129,4 +129,29 @@ public class Extras {
 		return extra;
 	}
 	
+	public int getIdExtraSeleccionado(int modelo, String extra) {
+		int id = 0;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT id_extra FROM alquilercoches.fichero_extra WHERE id_modelo =" + modelo + " && tipo = \"" + extra + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	               // System.out.println(resultSet.getString(1));
+	                id = resultSet.getInt(1);
+	            }
+			
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		setIdExtra(id);
+		return id;
+	}
+	
 }
