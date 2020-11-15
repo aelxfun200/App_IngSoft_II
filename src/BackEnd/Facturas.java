@@ -261,20 +261,22 @@ public class Facturas {
 		}
 	}
 	
-	public String informesDiarios(String tipoP) {
-		String importeTotal = "";
+	public ArrayList<String> informesDiarios(String tipoP) {
 		int tt = 0;
 		ArrayList<Integer> total = new ArrayList<Integer>();
+		ArrayList<String> informe = new ArrayList<String>();
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 				Statement statement = conn.createStatement();) {
 
 		        // Create and execute a SELECT SQL statement.
-		        String selectSql = "SELECT importe from alquilercoches.fichero_factura WHERE (tipo_pago = \"" + tipoP + "\")";
+		        String selectSql = "SELECT importe, id_cliente from alquilercoches.fichero_factura WHERE (tipo_pago = \"" + tipoP + "\")";
 		        resultSet = statement.executeQuery(selectSql);
 
 	            // Print results from select statement
 	            while (resultSet.next()) {
-	                 total.add(resultSet.getInt(1));                                
+	                 total.add(resultSet.getInt(1));
+	                 informe.add("USUARIO: " + resultSet.getString(2) + " ha pagado " + resultSet.getInt(1) + "€");
+	                 
 	            }
 			}
 			
@@ -286,8 +288,8 @@ public class Facturas {
 			 tt = tt + total.get(i);
 		}
 		
-		importeTotal = "El importe total es:" + String.valueOf(tt);		
-		return importeTotal;
+		informe.add("El importe total es: " + String.valueOf(tt) + "€");		
+		return informe;
 	}
 	
 

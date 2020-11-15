@@ -91,8 +91,7 @@ public class Main {
 		System.out.println(ft.informesDiarios("tarjeta"));
 		
 		
-		ts.tarias();
-		
+		//metodos nuevos pruebas
 		System.out.println(res.listarReservas(30858283).toString());
 		
 		System.out.println(md.getIdModeloSeleccionado("Audi", "A3"));

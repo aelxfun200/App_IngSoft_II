@@ -214,8 +214,8 @@ public class Reservas {
 	}
 	
 	// UPDATE `alquilercoches`.`fichero_reserva` SET `estado_reserva` = 'finalizada' WHERE (`id_coche` = '5200') and (`id_modelo` = '3') and (`id_franquicia` = '7') and (`id_cliente` = '30858283') and (`id_reserva` = '26');
-	public void aceptarReserva(int id_cliente, int id_coche, String tarjeta, String cadT, String numSecT) {
-
+	public boolean aceptarReserva(int id_cliente, int id_coche, String tarjeta, String cadT, String numSecT) {
+		boolean aceptado = false;
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 				Statement statement = conn.createStatement();) {
 
@@ -246,6 +246,7 @@ public class Reservas {
 
 		        // Print the ID of the inserted row.
 		        while (resultSet.next()) {
+		        	aceptado = true;
 		            System.out.println("Generated: " + resultSet.getString(1));
 		        }
 		    }
@@ -276,6 +277,7 @@ public class Reservas {
 		} else {
 			System.out.println("Tarjeta introducida no válida");
 		}
+		return aceptado;
 	}	
 	
 	public boolean validarTarjeta(int i, String tarjeta, String cadT, String numSecT) {
