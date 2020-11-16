@@ -27,8 +27,9 @@ public class Interface extends JFrame implements ActionListener {
     
     private int cont;
     private int cont2;
+    private int cocheAnt;
 
-    private ImageIcon image = new ImageIcon("home.png");
+    private ImageIcon image = new ImageIcon(getClass().getResource("home.png"));
 
 
     
@@ -61,6 +62,7 @@ public class Interface extends JFrame implements ActionListener {
     private Coches coches;
     
     private Reservas reserva;
+    private Facturas ft;
     
     
     private int cocheGuardado;
@@ -323,9 +325,9 @@ public class Interface extends JFrame implements ActionListener {
     private void crearVentanaR(String seleccion, Clientes client, Reservas reserv) {
     	
 
-        ImageIcon imageModificarReserva = new ImageIcon("ModificarReserva.png");
-        ImageIcon imageRealizarReserva = new ImageIcon("Reservar.png");
-        ImageIcon imageInformacionReserva = new ImageIcon("InformacionReserva.png");
+        ImageIcon imageModificarReserva = new ImageIcon(getClass().getResource("ModificarReserva.png"));
+        ImageIcon imageRealizarReserva = new ImageIcon(getClass().getResource("Reservar.png"));
+        ImageIcon imageInformacionReserva = new ImageIcon(getClass().getResource("InformacionReserva.png"));
         
         JTextField rellenarDNI2 = new JTextField("DNI: "+dniCliente);
   
@@ -339,7 +341,7 @@ public class Interface extends JFrame implements ActionListener {
         JLabel text1V2 = new JLabel("Elija una franquicia ");
         JLabel text2V2 = new JLabel("Seleccione marca ");
         JLabel text3V2 = new JLabel("Seleccione modelo ");
-        JLabel text4V2 = new JLabel("Seleccine extras ");
+        JLabel text4V2 = new JLabel("Seleccione extras ");
         
         JLabel textIniV2 = new JLabel("Inicio(YYYY-MM-DD) ");
         JLabel textFinV2 = new JLabel("Fin(YYYY-MM-DD) ");
@@ -456,7 +458,7 @@ public class Interface extends JFrame implements ActionListener {
           				int idModelo = modelos.getIdModeloSeleccionado(listaMarcasFranquicia.getSelectedItem().toString(), seleccionModelo);
           				extras.setIdModelo(idModelo);
           				
-          				coches.getCochesDelModelo(idModelo);
+          				coches.getCochesDelModelo(idModelo, franquicia.getIdCiudadSeleccionada(franquicia.getCiudad()));
           				coches.setIdCoche();
           				
           				usable = extras.getExtrasIdModelo(idModelo); 
@@ -523,8 +525,8 @@ public class Interface extends JFrame implements ActionListener {
         	
         	
         	//Fecha
-        	textIniV2.setText(reserv.getFechaInicio());
-        	textFinV2.setText(reserv.getFechaFin());
+        	fechaIni.setText(reserv.getFechaInicio());
+        	fechaFin.setText(reserv.getFechaFin());
         	
         	
         	ArrayList<String> franquiciasL = franquicia.getListaFranquicias();
@@ -603,7 +605,7 @@ public class Interface extends JFrame implements ActionListener {
           				int idModelo = modelos.getIdModeloSeleccionado(listaMarcasFranquicia.getSelectedItem().toString(), seleccionModelo);
           				extras.setIdModelo(idModelo);
           				
-          				coches.getCochesDelModelo(idModelo);
+          				coches.getCochesDelModelo(idModelo, franquicia.getIdCiudadSeleccionada(franquicia.getCiudad()));
           				coches.setIdCoche();
           				
           				usable = extras.getExtrasIdModelo(idModelo); 
@@ -625,15 +627,22 @@ public class Interface extends JFrame implements ActionListener {
 
           		public void actionPerformed(ActionEvent arg0) {
           			
-          			reserv.setIdModelo(modelos.getIdModelo());
+          			reserv.setIdModelo(extras.getIdModelo());
+          			System.out.println("EL MODELO NUEVO ES: " + reserv.getIdModelo());
     	   	    	reserv.setIdFranquicia(franquicia.getIdCiudadSeleccionada(franquicia.getCiudad()));
-    	   	    	reserv.setIdCocheAnt(coches.getIdCoche());
+    	   	    	System.out.println("LA FRANQUICIA NUEVA ES: " + reserv.getIdFranquicia());
+    	   	    	reserv.setIdCoche(coches.getIdCoche());
+    	   	    	System.out.println("LA MATRICULA DEL COCHE NUEVO ES: " + reserv.getIdCoche());
     	   	    	reserv.setEstadoReserva("reservado");
     	   	    	reserv.setFechaInicio(reserv.getFechaInicio());
+    	   	    	System.out.println("LA FECHA NUEVA DE INICIO ES: " + reserv.getFechaInicio());
     	   	    	reserv.setFechaFin(reserv.getFechaFin());
+    	   	    	System.out.println("LA NUEVA FECHA DE FIN ES : " + reserv.getFechaFin());
     	   	    	
     	   	    	//------------------------------------------------------------------------¿Coche antiguo lo guarda alex?
-    	   	    	reserv.modificarReserva(cliente.getIdCliente(), cocheGuardado);
+    	   	    	reserv.setIdCocheAnt(cocheGuardado);
+    	   	    	reserv.modificarReserva(cliente.getIdCliente(), reserv.getIdCocheAntiguo());
+    	   	    	System.out.println("LA MATRICULA DEL COCHE ANTIGUO ES: " + reserv.getIdCocheAntiguo());
     	   	    	System.out.println("RESERVA ACTUALIZADA");
           			
           			
@@ -694,7 +703,7 @@ public class Interface extends JFrame implements ActionListener {
 
  	    //Ventana elegir reservas
        JComboBox listaReservasCliente = new JComboBox();
-       ImageIcon imageRealizarReserva = new ImageIcon("miniVentana.png");
+       ImageIcon imageRealizarReserva = new ImageIcon(getClass().getResource("miniVentana.png"));
        ArrayList<String> listaReservasS = new ArrayList<String>();
        Reservas reserva = new Reservas();
        JButton botonAceptar = new JButton ("Aceptar");
@@ -715,18 +724,20 @@ public class Interface extends JFrame implements ActionListener {
        
        
        System.out.println(reserva.getIdCliente());
+       System.out.println("EL NÚMERO DE RESERVAS ES: " + listaReservas.size());
 
        
 
       
-	   	for (int i=0;i<listaReservas.size();i++) {
-	   	   listaReservasS.add("Codigo Reserva: " + Integer.toString(listaReservas.get(i).getIdReserva())+ "  Matricula Vehiculo: "+
-	   			Integer.toString(listaReservas.get(i).getIdCocheAntiguo())+"  Fecha Inicio: "+listaReservas.get(i).getFechaInicio()+"  Fecha Fin: "+listaReservas.get(i).getFechaFin());
+	   	for (int i=0; i<listaReservas.size(); i++) {
+	   	   listaReservasS.add("Codigo Reserva: " + listaReservas.get(i).getIdReserva() + "  Matricula Vehiculo: "+
+	   			listaReservas.get(i).getIdCocheAntiguo() + "  Fecha Inicio: " + listaReservas.get(i).getFechaInicio() + "  Fecha Fin: " + listaReservas.get(i).getFechaFin());
+	   	   System.out.println("LAS RESERVAS SON: " + listaReservas.get(i).getIdReserva());
 		}
 	    
        
        
-	   	for (int i=0;i<listaReservasS.size();i++) {
+	   	for (int i=0; i<listaReservasS.size(); i++) {
 				listaReservasCliente.addItem(listaReservasS.get(i));
 	   	}
        
@@ -778,7 +789,7 @@ public class Interface extends JFrame implements ActionListener {
     JButton botonConfirmarReserva = new JButton("Confimar Reserva");
 
  	
-    ImageIcon imageRealizarPago = new ImageIcon("miniVentana2.png");
+    ImageIcon imageRealizarPago = new ImageIcon(getClass().getResource("miniVentana2.png"));
 
 
      imageLabel = new JLabel(imageRealizarPago);
@@ -822,15 +833,16 @@ public class Interface extends JFrame implements ActionListener {
    			reserva.setIdCliente(cliente.getIdCliente());
    			
    			reserva.setIdModelo(extras.getIdModelo());
-   			System.out.println("El modelo es: " + reserva.getIdModelo());
+   			//System.out.println("El modelo es: " + reserva.getIdModelo());
    	    	reserva.setIdFranquicia(franquicia.getIdCiudadSeleccionada(franquicia.getCiudad()));
-   	    	System.out.println(reserva.getIdFranquicia());
+   	    	//System.out.println(reserva.getIdFranquicia());
    	    	reserva.setIdCoche(coches.getIdCoche());
-   	    	System.out.println(coches.getIdCoche());
-   	    	System.out.println("El ide del coche es: " + reserva.getIdCoche());
+   	    	cocheAnt = coches.getIdCoche();
+   	    	//System.out.println(coches.getIdCoche());
+   	    	//System.out.println("El ide del coche es: " + reserva.getIdCoche());
    	    	reserva.setEstadoReserva("reservado");
-   	    	System.out.println(reserva.getFechaInicio());
-   	    	System.out.println(reserva.getFechaFin());
+   	    	//System.out.println(reserva.getFechaInicio());
+   	    	//System.out.println(reserva.getFechaFin());
 
    	    	
    	    	reserva.altaReserva(cliente.getIdCliente());
@@ -838,7 +850,10 @@ public class Interface extends JFrame implements ActionListener {
    			
    			boolean aceptada = reserva.aceptarReserva(cliente.getIdCliente(), coches.getIdCoche(), rellenarNumTarjeta.getText(), rellenarFecha.getText(), rellenarPin.getText());
 	   	    
-	   	    if(!aceptada) {
+   			System.out.println("El resultado de la validacion de la tarjeta es:" + aceptada);
+   			
+   			//ft.crearFactura(reserva.getIdCoche(), reserva.getIdCliente(), reserva.getIdFranquicia(), reserva.getIdModelo(), reserva.getIdFranquicia(), tipo_Tarifa);
+	   	    if(aceptada == false) {
 	   	    	JOptionPane.showMessageDialog(ventana2, "Error al validar la tarjeta ");
 	   	    	
 	   	    }	

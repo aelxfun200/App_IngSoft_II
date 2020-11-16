@@ -25,7 +25,7 @@ public class Main {
 		System.out.println("MARCAS DISPONIBLES(main): " + md.getListaMarcasDisponibles(md.getListaIdModelosDisponibles(fr.getCiudad()))); //METODO PARA DEVOLVER LAS MARCAS DISPONIBLES EN UNA FRANQUICIA
 		System.out.println(ext.getExtrasIdModelo(ext.getIdModelo()) + " EXTRAS"); //METODO QUE ME DEFINE LOS EXTRAS A METER EN LA RESERVA
 		System.out.println(ext.getCosteAdicionalExtrasIdModelo(ext.getIdModelo())); //METODO QUE ME DEVUELVE EL COSTE ADICIONAL DE LOS EXTRAS A METER EN LA RESERVA
-		System.out.println(cch.getCochesDelModelo(ext.getIdModelo()));  //METODO QUE DEVUELVE TODOS LOS COCHES DE UN MODELO SELECCIONADO
+		//System.out.println(cch.getCochesDelModelo(ext.getIdModelo()));  //METODO QUE DEVUELVE TODOS LOS COCHES DE UN MODELO SELECCIONADO
 		cch.setIdCoche();
 		System.out.println("EL ID DEL COCHE ES: " + cch.getIdCoche());  //METODO QUE DEVUELVE LA MATRICULA SIN NUMEROS DE UN COCHE, HABIENDO ELEGIDO PREVIAMENTE EL MODELO DE COCHE QUE SE QUIERE
 		res.setFechaInicio("2020/11/20");
@@ -72,7 +72,7 @@ public class Main {
 		ext.setIdModelo(7);
 		System.out.println(ext.getExtrasIdModelo(ext.getIdModelo()) + " EXTRAS"); //METODO QUE ME DEFINE LOS EXTRAS A METER EN LA RESERVA
 		System.out.println("COSTE ADICIONAL DE LOS EXTRAS: " + ext.getCosteAdicionalExtrasIdModelo(ext.getIdModelo())); //METODO QUE ME DEVUELVE EL COSTE ADICIONAL DE LOS EXTRAS A METER EN LA RESERVA
-		System.out.println(cch.getCochesDelModelo(ext.getIdModelo()));  //METODO QUE DEVUELVE TODOS LOS COCHES DE UN MODELO SELECCIONADO
+		//System.out.println(cch.getCochesDelModelo(ext.getIdModelo()));  //METODO QUE DEVUELVE TODOS LOS COCHES DE UN MODELO SELECCIONADO
 		cch.setIdCoche();
 		System.out.println("EL ID DEL COCHE ES: " + cch.getIdCoche());  //METODO QUE DEVUELVE LA MATRICULA SIN NUMEROS DE UN COCHE, HABIENDO ELEGIDO PREVIAMENTE EL MODELO DE COCHE QUE SE QUIERE
 		res.setFechaInicio("2020/12/20");

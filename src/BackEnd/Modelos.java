@@ -152,7 +152,7 @@ public class Modelos {
 					id = Integer.parseInt(idMod.get(i));
 					
 		            // Create and execute a SELECT SQL statement.
-		            String selectSql = "SELECT marca FROM alquilercoches.fichero_modelo WHERE id_modelo = " + id;
+		            String selectSql = "SELECT DISTINCT marca FROM alquilercoches.fichero_modelo WHERE id_modelo = " + id;
 		            resultSet = statement.executeQuery(selectSql);
 		            while (resultSet.next()) {
 		            marcas.add(resultSet.getString(1));
@@ -179,7 +179,7 @@ public class Modelos {
 					id = Integer.parseInt(idMod.get(i));
 					
 		            // Create and execute a SELECT SQL statement.
-		            String selectSql = "SELECT nombre_modelo FROM alquilercoches.fichero_modelo WHERE id_modelo = " + id + "&& marca = \"" + marca + "\"" ;
+		            String selectSql = "SELECT DISTINCT nombre_modelo FROM alquilercoches.fichero_modelo WHERE id_modelo = " + id + "&& marca = \"" + marca + "\"" ;
 		            resultSet = statement.executeQuery(selectSql);
 		            while (resultSet.next()) {
 		            modelos.add(resultSet.getString(1));

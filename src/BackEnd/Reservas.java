@@ -234,6 +234,7 @@ public class Reservas {
 			}
 		
 		if (validarTarjeta(cl.devolverPosArray(id_cliente), tarjeta, cadT, numSecT) == true) {
+        	aceptado = true;
 			System.out.println("La tarjeta introducida por el cliente es válida");
 			String updateSql = "UPDATE alquilercoches.fichero_reserva SET `estado_reserva` = \"ACEPTADA\" WHERE (id_reserva = "+ id_columna + ")";
 			
@@ -246,7 +247,7 @@ public class Reservas {
 
 		        // Print the ID of the inserted row.
 		        while (resultSet.next()) {
-		        	aceptado = true;
+
 		            System.out.println("Generated: " + resultSet.getString(1));
 		        }
 		    }
@@ -380,7 +381,6 @@ public class Reservas {
 	
 	public ArrayList<Reservas> listarReservas(int id_cliente) {
 		ArrayList<Reservas> r = new ArrayList<Reservas>();
-		Reservas res = new Reservas();
 
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 				Statement statement = conn.createStatement();) {
@@ -391,13 +391,8 @@ public class Reservas {
 
 	            // Print results from select statement
 	            while (resultSet.next()) { 
-	            	res.setIdCocheAnt(resultSet.getInt(5));
-	            	res.setIdReserva(resultSet.getInt(1)); 
-	            	res.setEstadoReserva(resultSet.getString(2));
-	            	res.setFechaInicio(resultSet.getString(3));
-	            	res.setFechaFin(resultSet.getString(4));
-	            	res.setIdCoche(resultSet.getInt(5));
-	            	r.add(res);
+	            	r.add(rellenarArray(resultSet.getInt(5), resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5)));
+	            	
 	            }
 			}
 			
@@ -406,7 +401,21 @@ public class Reservas {
 				
 			}
 		
+		System.out.println("Las reservas son: " + r.get(0).getIdReserva());
+		System.out.println("Las reservas son: " + r.get(1).getIdReserva());
+		
 		return r;
+	}
+	
+	public Reservas rellenarArray (int IdCAnt, int idRserva, String est,String fi, String ff, int idCoche) {
+		Reservas res = new Reservas();
+		res.setIdCocheAnt(IdCAnt);
+    	res.setIdReserva(idRserva); 
+    	res.setEstadoReserva(est);
+    	res.setFechaInicio(fi);
+    	res.setFechaFin(ff);
+    	res.setIdCoche(idCoche);
+    	return res;
 	}
 	
 

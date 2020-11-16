@@ -63,13 +63,13 @@ public class Coches {
 	
 	//METODOS
 	
-	public ArrayList<String> getCochesDelModelo(int modelo) { //DADO UN MODELO NOS DEVUELVE LOS COCHES DE ESE MODELO QUE ESTÉN DISPONIBLES
+	public ArrayList<String> getCochesDelModelo(int modelo, int id_franquicia) { //DADO UN MODELO NOS DEVUELVE LOS COCHES DE ESE MODELO QUE ESTÉN DISPONIBLES
 		
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
 			Statement statement = conn.createStatement();) {
 
 	        // Create and execute a SELECT SQL statement.
-	        String selectSql = "SELECT matricula, letras_matrícula FROM alquilercoches.fichero_coche WHERE id_modelo= " + modelo;
+	        String selectSql = "SELECT matricula, letras_matrícula FROM alquilercoches.fichero_coche WHERE id_modelo= " + modelo + " && id_franquicia = " + id_franquicia;
 	        resultSet = statement.executeQuery(selectSql);
 
             // Print results from select statement
