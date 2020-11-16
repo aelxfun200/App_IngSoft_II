@@ -22,20 +22,15 @@ import java.util.ArrayList;
 import BackEnd.*;
 
 public class Interface extends JFrame implements ActionListener {
-
- 
-    
     private int cont;
     private int cont2;
     private int cocheAnt;
 
     private ImageIcon image = new ImageIcon(getClass().getResource("home.png"));
 
-
-    
     private JLabel imageLabel;
     private JLabel texto;//Introduzca DNI   
-    private JLabel texto2;  //Introduzca contrase�a
+    private JLabel texto2;  //Introduzca contraseña
     private JButton botonAcceder;
     private JButton botonRegistrarse;
     private JTextField rellenarDNI;
@@ -66,6 +61,7 @@ public class Interface extends JFrame implements ActionListener {
     
     
     private int cocheGuardado;
+//--------------------------VENTANA HOME--------------------------	
     public Interface(String titulo,int x, int y) {
         super();                    
         setFrame(titulo,x,y); 
@@ -126,7 +122,7 @@ public class Interface extends JFrame implements ActionListener {
         //IDENTIFICARSE
         texto.setText("Introduzca su DNI:");    
         texto.setBounds(350, 150, 200, 60);   
-        texto2.setText("Introduzca su contrase�a:"); 
+        texto2.setText("Introduzca su contraseña:"); 
         texto2.setBounds(550, 150, 200, 60);  
         botonAcceder.setText("Acceder");   
         botonAcceder.setBounds(520, 255, 200, 26);  
@@ -149,7 +145,7 @@ public class Interface extends JFrame implements ActionListener {
         
         //GAMA COCHES
         
-        botonInfoCoche.setText("Consultar Informaci�n");   
+        botonInfoCoche.setText("Consultar Información");   
         botonInfoCoche.setBounds(415, 600, 200, 35);
         listaMarcas.setBounds(300, 550, 200, 25);
         listaModelos.setBounds(550, 550, 200, 25);
@@ -184,12 +180,7 @@ public class Interface extends JFrame implements ActionListener {
         this.add(imageLabel);
        
     
-		
-        
-        
-        //IDENTIFCARSE
-      
-        
+	//Accion al pulsar el boton acceder. Comprueba que el usuario exista
         botonAcceder.addActionListener(new ActionListener() {
 
     		public void actionPerformed(ActionEvent arg0) {
@@ -212,12 +203,11 @@ public class Interface extends JFrame implements ActionListener {
         
         
       
-        //RESERVAS
+        //Accion al pulsar en REALIZAR RESERVA
         botonRealizarR.addActionListener(new ActionListener() {
-
     		public void actionPerformed(ActionEvent arg0) {
     			if (cont == 1)
-            	crearVentanaR("Realizar Reserva", cliente, new Reservas());
+            	crearVentanaR("Realizar Reserva", cliente, new Reservas());//--->PASAMOS A VENTANA REALIZAR RESERVA (Ventana R linea: 310)
              
 
     		}
@@ -225,20 +215,18 @@ public class Interface extends JFrame implements ActionListener {
     	});
         
         
-        
+        //Accion al pulsar en MODIFICAR RESERVA
         botonModificarR.addActionListener(new ActionListener() {
-
-
     		public void actionPerformed(ActionEvent arg0) {
     			if(cont == 1)
-    			crearVentanaMini("Modificar Reserva", cliente);
+    			crearVentanaMini("Modificar Reserva", cliente);  //--->PASAMOS A VENTANA SELECCIONAR RESERVA (Ventana Mini linea: 677 )
     		}
 
     	});
    
         
  
-        
+        //Accion al pulsar en CONSULTAR RESERVA (NO CICLO 1)
         botonConsultarR.addActionListener(new ActionListener() {
 
     		public void actionPerformed(ActionEvent arg0) {
@@ -250,7 +238,7 @@ public class Interface extends JFrame implements ActionListener {
     	});
         
         
-        //NO CICLO 1
+        //Accion al pulsar en ELIMINAR RESERVA (NO CICLO 1)
         botonEliminarR.addActionListener(new ActionListener() {
 
     		public void actionPerformed(ActionEvent arg0) {
@@ -260,11 +248,10 @@ public class Interface extends JFrame implements ActionListener {
     		}
 
     	});
-        
-        
-        
+  
         //INFO AUTOMOVIL
   /*      
+        ////Accion al pulsar en INFORMACION AUTOMOVIL (NO CICLO 1)
         listaMarcas.addActionListener(new ActionListener() {
 
     		public void actionPerformed(ActionEvent arg0) {
@@ -288,7 +275,7 @@ public class Interface extends JFrame implements ActionListener {
     } 
     
     
-    //*
+    //*Fragmento web 
     public static boolean esNumero(String cadena) {
 
         boolean resultado;
@@ -304,7 +291,7 @@ public class Interface extends JFrame implements ActionListener {
     }
     
     
-   
+   //Rellenar Lista Marcas
     private void rellenar1(ArrayList<String> list1) {
     	for (int i=0;i<list1.size();i++) {
 			listaMarcas.addItem(list1.get(i));
@@ -312,7 +299,7 @@ public class Interface extends JFrame implements ActionListener {
     	}
 	}
 
-    
+    //Rellenar Lista Modelos
     private void rellenar2(ArrayList<String> list1) {
     	listaModelos.removeAllItems();
     	for (int i=0;i<list1.size();i++) {
@@ -321,7 +308,7 @@ public class Interface extends JFrame implements ActionListener {
 	}
     
  
-    
+    //--------------------------(VENTANA R) VENTANA RESERVA (CREAR RESERVA, MODIFICAR RESERVA Y CONSULTAR RESERVA)--------------------------
     private void crearVentanaR(String seleccion, Clientes client, Reservas reserv) {
     	
 
@@ -380,7 +367,7 @@ public class Interface extends JFrame implements ActionListener {
         	textIniV2.setBounds(720, 145, 120, 25);
         	textFinV2.setBounds(850, 145, 100, 25);
         	
-        	//FRANQUICIA
+        	
         	
         	ArrayList<String> franquiciasL = franquicia.getListaFranquicias();
         	
@@ -389,7 +376,7 @@ public class Interface extends JFrame implements ActionListener {
     			
         	}
         	
-        	
+        	//ACCION AL ELEGIR UNA FRANQUICIA
         	listaFranquicias.addActionListener(new ActionListener() {
 
 
@@ -421,7 +408,7 @@ public class Interface extends JFrame implements ActionListener {
           	});
         	
         	
-   
+   		//ACCION AL ELEGIR UNA MARCA
         	listaMarcasFranquicia.addActionListener(new ActionListener() {
           		public void actionPerformed(ActionEvent arg0) {
       				
@@ -448,7 +435,7 @@ public class Interface extends JFrame implements ActionListener {
           	});
         	
         	
-        	
+        	//ACCION AL ELEGIR UN MODELO
         	listaModelosMarca.addActionListener(new ActionListener() {
           		public void actionPerformed(ActionEvent arg0) {
           			System.out.println("Hola");
@@ -475,11 +462,11 @@ public class Interface extends JFrame implements ActionListener {
 
           	});
         	
-        	
+        	//ACCION AL PULSAR BOTON REALIZAR PAGO
         	botonRealizarPago.addActionListener(new ActionListener() {
 
           		public void actionPerformed(ActionEvent arg0) {
-          			crearVentanaMini2("Realizar pago");
+          			crearVentanaMini2("Realizar pago"); //-->--->PASAMOS A VENTANA INFORMACION PAGO (VentanaR linea 748)
           			System.out.println(coches.getIdCoche());
           			//guardamos fechas provisionales
           			System.out.println(fechaIni.getText());
@@ -536,7 +523,7 @@ public class Interface extends JFrame implements ActionListener {
     			
         	}
         	
-        	
+        	//ACCION AL ELEGIR UNA FRANQUICIA
         	listaFranquicias.addActionListener(new ActionListener() {
 
 
@@ -568,7 +555,7 @@ public class Interface extends JFrame implements ActionListener {
           	});
         	
         	
-   
+   		//ACCION AL ELEGIR UNA MARCA
         	listaMarcasFranquicia.addActionListener(new ActionListener() {
           		public void actionPerformed(ActionEvent arg0) {
       				
@@ -595,7 +582,7 @@ public class Interface extends JFrame implements ActionListener {
           	});
         	
         	
-        	
+        	//ACCION AL ELEGIR UN MODELO
         	listaModelosMarca.addActionListener(new ActionListener() {
           		public void actionPerformed(ActionEvent arg0) {
           			System.out.println("Hola");
@@ -622,13 +609,17 @@ public class Interface extends JFrame implements ActionListener {
 
           	});
         	
-        	
+        	//ACCION AL PULSAR BOTON GUARDAR CAMBIOS--------------**GUARDA LA NUEVA RESERVA MODIFICADA**
         	botonRealizarCambios.addActionListener(new ActionListener() {
 
           		public void actionPerformed(ActionEvent arg0) {
           			
+<<<<<<< HEAD
           			reserv.setIdModelo(extras.getIdModelo());
           			System.out.println("EL MODELO NUEVO ES: " + reserv.getIdModelo());
+=======
+          		reserv.setIdModelo(modelos.getIdModelo());
+>>>>>>> origin/main
     	   	    	reserv.setIdFranquicia(franquicia.getIdCiudadSeleccionada(franquicia.getCiudad()));
     	   	    	System.out.println("LA FRANQUICIA NUEVA ES: " + reserv.getIdFranquicia());
     	   	    	reserv.setIdCoche(coches.getIdCoche());
@@ -639,10 +630,15 @@ public class Interface extends JFrame implements ActionListener {
     	   	    	reserv.setFechaFin(reserv.getFechaFin());
     	   	    	System.out.println("LA NUEVA FECHA DE FIN ES : " + reserv.getFechaFin());
     	   	    	
+<<<<<<< HEAD
     	   	    	//------------------------------------------------------------------------�Coche antiguo lo guarda alex?
     	   	    	reserv.setIdCocheAnt(cocheGuardado);
     	   	    	reserv.modificarReserva(cliente.getIdCliente(), reserv.getIdCocheAntiguo());
     	   	    	System.out.println("LA MATRICULA DEL COCHE ANTIGUO ES: " + reserv.getIdCocheAntiguo());
+=======
+    	   	    	//------------------------------------------------------------------------¿Coche antiguo lo guarda alex?
+    	   	    	reserv.modificarReserva(cliente.getIdCliente(), cocheGuardado);
+>>>>>>> origin/main
     	   	    	System.out.println("RESERVA ACTUALIZADA");
           			
           			
@@ -661,7 +657,7 @@ public class Interface extends JFrame implements ActionListener {
 	    }
         
    
-        
+        //Creación de la ventana
         Interface ventana2 = new Interface(seleccion,1080,720);
         
         
@@ -695,13 +691,11 @@ public class Interface extends JFrame implements ActionListener {
     }
     
     
-    
+ //--------------------------VENTANA SELECCIONAR RESERVA--------------------------   
  private void crearVentanaMini(String seleccion, Clientes client) {
  	   
  	   
-	  Interface ventana3 = new Interface(seleccion,600,250);
-
- 	    //Ventana elegir reservas
+       Interface ventana3 = new Interface(seleccion,600,250);
        JComboBox listaReservasCliente = new JComboBox();
        ImageIcon imageRealizarReserva = new ImageIcon(getClass().getResource("miniVentana.png"));
        ArrayList<String> listaReservasS = new ArrayList<String>();
@@ -716,10 +710,12 @@ public class Interface extends JFrame implements ActionListener {
        imageLabel = new JLabel(imageRealizarReserva);
        imageLabel.setBounds(0 ,200, 600, 250);
        
-       //Algoritmo
+       
        
        
        reserva.setIdCliente(client.getIdCliente());
+	 
+	//Obtengo lista de objetos Reserva	 
        listaReservas = reserva.listarReservas(reserva.getIdCliente());
        
        
@@ -728,6 +724,7 @@ public class Interface extends JFrame implements ActionListener {
 
        
 
+<<<<<<< HEAD
       
 	   	for (int i=0; i<listaReservas.size(); i++) {
 	   	   listaReservasS.add("Codigo Reserva: " + listaReservas.get(i).getIdReserva() + "  Matricula Vehiculo: "+
@@ -741,55 +738,69 @@ public class Interface extends JFrame implements ActionListener {
 				listaReservasCliente.addItem(listaReservasS.get(i));
 	   	}
        
+=======
+      	//Listar reservas en un ArrayList<String>listaReservasS
+	for (int i=0;i<listaReservas.size();i++) {
+	   listaReservasS.add("Codigo Reserva: " + Integer.toString(listaReservas.get(i).getIdReserva())+ "  Matricula Vehiculo: "+
+			Integer.toString(listaReservas.get(i).getIdCocheAntiguo())+"  Fecha Inicio: "+listaReservas.get(i).getFechaInicio()+"  Fecha Fin: "+listaReservas.get(i).getFechaFin());
+	}
+
+
+	//LLeno lista desplegable con los valores
+	for (int i=0;i<listaReservasS.size();i++) {
+			listaReservasCliente.addItem(listaReservasS.get(i));
+	}
+>>>>>>> origin/main
        
-    	ventana3.setResizable(false);
-        ventana3.setVisible(true); 
-        
-        ventana3.add(listaReservasCliente);
-        ventana3.add(botonAceptar);
-        ventana3.add(imageLabel);
-        
-        
+	//Accion cuando elige una reserva 
         botonAceptar.addActionListener(new ActionListener() {
 
-    	public void actionPerformed(ActionEvent arg0) {
+    		public void actionPerformed(ActionEvent arg0) {
     			String seleccionReserva = listaReservasCliente.getSelectedItem().toString();
     			int indice = listaReservasS.indexOf(seleccionReserva);
     			Reservas reservaElegida = listaReservas.get(indice);
     			cocheGuardado = reservaElegida.getIdCocheAntiguo();
     			
     			System.out.println(reservaElegida.getIdCocheAntiguo());
-    			crearVentanaR("Modificar Reserva",client, reservaElegida);
+    			crearVentanaR("Modificar Reserva",client, reservaElegida);//--->PASAMOS A VENTANA MODIFICAR RESERVA (VentanaR linea 310)
     		}
 
     	});
+	 
+	
+	//Completamos interfaz
+    	ventana3.setResizable(false);
+        ventana3.setVisible(true); 
         
-     
-        
-        
-        
+        ventana3.add(listaReservasCliente);
+        ventana3.add(botonAceptar);
+        ventana3.add(imageLabel);
+    
     }
 
  
- 
+ //--------------------------VENTANA REALIZAR PAGO--------------------------
  private void crearVentanaMini2(String seleccion) {
- 	
- 	
- 	Interface ventana2 = new Interface(seleccion,600,290);
- 
- 	JTextField rellenarNumTarjeta= new JTextField();
- 	JTextField rellenarFecha= new JTextField();
- 	JTextField rellenarPin= new JTextField();
- 	
- 
- 	JLabel text2M2 = new JLabel("Numero tarjeta: ");
- 	JLabel text3M2 = new JLabel("Fecha Caducidad: ");
- 	JLabel text4M2 = new JLabel("Pin: ");
 
-    JButton botonConfirmarReserva = new JButton("Confimar Reserva");
+      Interface ventana2 = new Interface(seleccion,600,290);
+
+      JTextField rellenarNumTarjeta= new JTextField();
+      JTextField rellenarFecha= new JTextField();
+      JTextField rellenarPin= new JTextField();
+
+
+      JLabel text2M2 = new JLabel("Numero tarjeta: ");
+      JLabel text3M2 = new JLabel("Fecha Caducidad: ");
+      JLabel text4M2 = new JLabel("Pin: ");
+
+      JButton botonConfirmarReserva = new JButton("Confimar Reserva");
 
  	
+<<<<<<< HEAD
     ImageIcon imageRealizarPago = new ImageIcon(getClass().getResource("miniVentana2.png"));
+=======
+     ImageIcon imageRealizarPago = new ImageIcon("miniVentana2.png");
+>>>>>>> origin/main
 
 
      imageLabel = new JLabel(imageRealizarPago);
@@ -809,17 +820,14 @@ public class Interface extends JFrame implements ActionListener {
      
      botonConfirmarReserva.setBounds(225, 205, 150, 35);
      
+     //Comppletamos interfaz 
      ventana2.setResizable(false);
      ventana2.setVisible(true); 
      
-
-     
-
      ventana2.add(rellenarNumTarjeta);
      ventana2.add(rellenarFecha);
      ventana2.add(rellenarPin);
      
-   
      ventana2.add(text2M2);
      ventana2.add(text3M2);
      ventana2.add(text4M2);
@@ -827,13 +835,19 @@ public class Interface extends JFrame implements ActionListener {
      ventana2.add(botonConfirmarReserva);
      ventana2.add(imageLabel);
  	
+     //Accion boton confirmar reserva  -------------**GENERA RESERVA Y VERIFICA  TARJETA VALIDA**
      botonConfirmarReserva.addActionListener(new ActionListener() {
    		public void actionPerformed(ActionEvent arg0) {
    			
-   			reserva.setIdCliente(cliente.getIdCliente());
+   		reserva.setIdCliente(cliente.getIdCliente());
    			
+<<<<<<< HEAD
    			reserva.setIdModelo(extras.getIdModelo());
    			//System.out.println("El modelo es: " + reserva.getIdModelo());
+=======
+   		reserva.setIdModelo(extras.getIdModelo());
+   		System.out.println("El modelo es: " + reserva.getIdModelo());
+>>>>>>> origin/main
    	    	reserva.setIdFranquicia(franquicia.getIdCiudadSeleccionada(franquicia.getCiudad()));
    	    	//System.out.println(reserva.getIdFranquicia());
    	    	reserva.setIdCoche(coches.getIdCoche());
@@ -863,8 +877,7 @@ public class Interface extends JFrame implements ActionListener {
    	});
  	
  }
- 
- 
+
 @Override
 public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub
