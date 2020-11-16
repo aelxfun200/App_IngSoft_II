@@ -35,7 +35,7 @@ public class Interface extends JFrame implements ActionListener {
     
     private JLabel imageLabel;
     private JLabel texto;//Introduzca DNI   
-    private JLabel texto2;  //Introduzca contraseña
+    private JLabel texto2;  //Introduzca contraseÃ±a
     private JButton botonAcceder;
     private JButton botonRegistrarse;
     private JTextField rellenarDNI;
@@ -126,7 +126,7 @@ public class Interface extends JFrame implements ActionListener {
         //IDENTIFICARSE
         texto.setText("Introduzca su DNI:");    
         texto.setBounds(350, 150, 200, 60);   
-        texto2.setText("Introduzca su contraseña:"); 
+        texto2.setText("Introduzca su contraseÃ±a:"); 
         texto2.setBounds(550, 150, 200, 60);  
         botonAcceder.setText("Acceder");   
         botonAcceder.setBounds(520, 255, 200, 26);  
@@ -149,7 +149,7 @@ public class Interface extends JFrame implements ActionListener {
         
         //GAMA COCHES
         
-        botonInfoCoche.setText("Consultar Información");   
+        botonInfoCoche.setText("Consultar InformaciÃ³n");   
         botonInfoCoche.setBounds(415, 600, 200, 35);
         listaMarcas.setBounds(300, 550, 200, 25);
         listaModelos.setBounds(550, 550, 200, 25);
@@ -350,10 +350,14 @@ public class Interface extends JFrame implements ActionListener {
         JTextField fechaFin = new JTextField();
         
     	JButton botonRealizarCambios = new JButton("Realizar Cambios");
-
+        JLabel textTarifaV2 = new JLabel("Seleccione tarifa");
+    	JComboBox listaTarifa = new JComboBox();
       //**************REALIZAR RESERVA**************
         if (seleccion.equals("Realizar Reserva")) {
-
+		textTarifaV2.setBounds(470, 413, 105, 25);
+		listaTarifa.setBounds(470, 436, 100, 25);
+		listaTarifa.addItem("Por horas");
+		listaTarifa.addItem("Por KM");
         
         	modelos.setIdModelo(reserva.getIdModelo());
         	
@@ -639,7 +643,7 @@ public class Interface extends JFrame implements ActionListener {
     	   	    	reserv.setFechaFin(reserv.getFechaFin());
     	   	    	System.out.println("LA NUEVA FECHA DE FIN ES : " + reserv.getFechaFin());
     	   	    	
-    	   	    	//------------------------------------------------------------------------¿Coche antiguo lo guarda alex?
+    	   	    	//------------------------------------------------------------------------Â¿Coche antiguo lo guarda alex?
     	   	    	reserv.setIdCocheAnt(cocheGuardado);
     	   	    	reserv.modificarReserva(cliente.getIdCliente(), reserv.getIdCocheAntiguo());
     	   	    	System.out.println("LA MATRICULA DEL COCHE ANTIGUO ES: " + reserv.getIdCocheAntiguo());
@@ -685,6 +689,10 @@ public class Interface extends JFrame implements ActionListener {
         ventana2.add(fechaIni);
         ventana2.add(fechaFin);
         
+	ventana2.add(listaTarifa);
+        ventana2.add(textTarifaV2);   
+	    
+	    
         ventana2.add(textIniV2);
         ventana2.add(textFinV2);
         ventana2.add(botonRealizarCambios);
@@ -724,7 +732,7 @@ public class Interface extends JFrame implements ActionListener {
        
        
        System.out.println(reserva.getIdCliente());
-       System.out.println("EL NÚMERO DE RESERVAS ES: " + listaReservas.size());
+       System.out.println("EL NÃšMERO DE RESERVAS ES: " + listaReservas.size());
 
        
 
