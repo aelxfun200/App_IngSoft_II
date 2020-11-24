@@ -9,9 +9,9 @@ public class Main {
 		
 		Interface interfaz = new Interface("Aplicación de reservas",1080,720);
 		
-		Marcas listaMarcas = new Marcas();
+		Franquicia listaMarcas = new Franquicia();
 
-		interfaz.init(listaMarcas.getListaMarcas());
+		interfaz.init(listaMarcas.getListaFranquicias());
         interfaz.setResizable(false);
         interfaz.setVisible(true);    
         
