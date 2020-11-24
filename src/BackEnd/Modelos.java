@@ -38,7 +38,9 @@ public class Modelos {
 	}
 	
 	//GETTERS
-	
+	public String getNombreModelo() {	
+		return this.nombreModelo;
+	}
 	public int getIdModelo() {
 		return this.idModelo;
 	}
@@ -77,7 +79,9 @@ public class Modelos {
 	}
 		
 	// SETTERS DE LOS ATRIBUTOS
-	
+	public void setNombreModelo(String nombreModelo) {
+		this.nombreModelo = nombreModelo;
+	}
 	public void setIdModelo(int idModelo) {
 		this.idModelo = idModelo;
 	}
