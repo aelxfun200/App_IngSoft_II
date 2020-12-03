@@ -38,7 +38,9 @@ public class Modelos {
 	}
 	
 	//GETTERS
-	
+	public String getNombreModelo() {	
+		return this.nombreModelo;
+	}
 	public int getIdModelo() {
 		return this.idModelo;
 	}
@@ -77,7 +79,9 @@ public class Modelos {
 	}
 		
 	// SETTERS DE LOS ATRIBUTOS
-	
+	public void setNombreModelo(String nombreModelo) {
+		this.nombreModelo = nombreModelo;
+	}
 	public void setIdModelo(int idModelo) {
 		this.idModelo = idModelo;
 	}
@@ -115,7 +119,61 @@ public class Modelos {
 	}
 	
 	//METODOS
+        //PARA RETORNAR TODAS LAS MARCAS 
+	public ArrayList<String> getListaMarcas() {
+		ArrayList<String> marcas = new ArrayList<String>();
+		int id;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+				Statement statement = conn.createStatement();) {
+			
+			
+		            // Create and execute a SELECT SQL statement.
+		            String selectSql = "SELECT DISTINCT marca FROM alquilercoches.fichero_modelo  ";
+		            resultSet = statement.executeQuery(selectSql);
+		            while (resultSet.next()) {
+		            marcas.add(resultSet.getString(1));
+		            }
+			
+					
+				}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//System.out.println( "MARCAS DISPONIBLES: " + marcas.toString());
+		return marcas;
+	}
 	
+	
+	
+	
+	
+	//PARA RETORNAR LOS MODELOS DE UNA MARCA
+	public ArrayList<String> getListaModelosMarca(String marca) {
+		ArrayList<String> modelos = new ArrayList<String>();
+		int id;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+				Statement statement = conn.createStatement();) {
+			
+		
+		            // Create and execute a SELECT SQL statement.
+		            String selectSql = "SELECT DISTINCT nombre_modelo FROM alquilercoches.fichero_modelo WHERE marca = \"" + marca + "\"" ;
+		            resultSet = statement.executeQuery(selectSql);
+		            while (resultSet.next()) {
+		            modelos.add(resultSet.getString(1));
+		            }
+			
+					
+				}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//System.out.println("MODELOS DISPONIBLES: " + modelos.toString());
+		return modelos;
+	}
 	public ArrayList<String> getListaIdModelosDisponibles(String nombreFranquicia/*, boolean marca_o_modelo*/) {
 		ArrayList<String> fran = new ArrayList<>();
 		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());

@@ -35,7 +35,7 @@ public class Interface extends JFrame implements ActionListener {
     
     private JLabel imageLabel;
     private JLabel texto;//Introduzca DNI   
-    private JLabel texto2;  //Introduzca contrase�a
+    private JLabel texto2;  //Introduzca contraseÃ±a
     private JButton botonAcceder;
     private JButton botonRegistrarse;
     private JTextField rellenarDNI;
@@ -129,7 +129,7 @@ public class Interface extends JFrame implements ActionListener {
         //IDENTIFICARSE
         texto.setText("Introduzca su DNI:");    
         texto.setBounds(350, 150, 200, 60);   
-        texto2.setText("Introduzca su contrase�a:"); 
+        texto2.setText("Introduzca su contraseÃ±a:"); 
         texto2.setBounds(550, 150, 200, 60);  
         botonAcceder.setText("Acceder");   
         botonAcceder.setBounds(520, 255, 200, 26);  
@@ -152,7 +152,7 @@ public class Interface extends JFrame implements ActionListener {
         
         //GAMA COCHES
         
-        botonInfoCoche.setText("Consultar Informaci�n");   
+        botonInfoCoche.setText("Consultar InformaciÃ³n");   
         botonInfoCoche.setBounds(415, 600, 200, 35);
         listaMarcas.setBounds(300, 550, 200, 25);
         listaModelos.setBounds(550, 550, 200, 25);
@@ -265,25 +265,33 @@ public class Interface extends JFrame implements ActionListener {
     	});
         
         
-        
         //INFO AUTOMOVIL
-  /*      
+        
         listaMarcas.addActionListener(new ActionListener() {
 
     		public void actionPerformed(ActionEvent arg0) {
-    		
-    			cont = 0;
-    			Modelos loc = new Modelos();
+    
+    			Modelos modelos = new Modelos();
     			String seleccionMarca = listaMarcas.getSelectedItem().toString();
     			//int idMod = loc.getListaIdModelosDisponibles(nombreFranquicia);
     	        
-    	       ArrayList<String> listModelosMarca = loc.getLModelosMarca(seleccionMarca);
-    	        //ArrayList<String> listModelosMarca = loc.getListaModelosDisponibles(idMod, seleccionMarca);
+    	       ArrayList<String> listModelosMarca = modelos.getListaModelosMarca(seleccionMarca);
     			rellenar2(listModelosMarca);
     			
     		}
 
-    	});*/
+    	});
+        
+        botonInfoCoche.addActionListener(new ActionListener() {
+
+    		public void actionPerformed(ActionEvent arg0) {
+    			  
+    		    		crearVentanaMini3(listaModelos.getSelectedItem().toString());	
+    		    
+    		}
+
+    	});
+   
         
         
    
@@ -691,10 +699,11 @@ public class Interface extends JFrame implements ActionListener {
     	   	    	System.out.println("LA NUEVA FECHA DE FIN ES : " + reserv.getFechaFin());
     	   	    	//reserv.se
     	   	    	
-    	   	    	//------------------------------------------------------------------------�Coche antiguo lo guarda alex?
+ 	//------------------------------------------------------------------------¿Coche antiguo lo guarda alex?
     	   	    	reserv.setIdCocheAnt(cocheGuardado);
     	   	    	reserv.modificarReserva(cliente.getIdCliente(), reserv.getIdCocheAntiguo());
     	   	    	System.out.println("LA MATRICULA DEL COCHE ANTIGUO ES: " + reserv.getIdCocheAntiguo());
+
     	   	    	System.out.println("RESERVA ACTUALIZADA");
           			
           			
@@ -778,7 +787,7 @@ public class Interface extends JFrame implements ActionListener {
        
        
        System.out.println(reserva.getIdCliente());
-       System.out.println("EL N�MERO DE RESERVAS ES: " + listaReservas.size());
+       System.out.println("EL NÚMERO DE RESERVAS ES: " + listaReservas.size());
 
        
 
@@ -921,7 +930,60 @@ public class Interface extends JFrame implements ActionListener {
  	
  }
  
- 
+  private void crearVentanaMini3(String seleccion) {
+	 Interface ventana3 = new Interface("Modelo "+ seleccion,600,290);
+	 Modelos modelo = new Modelos();
+	 
+	 modelo.rellenarInfo(seleccion);
+	 
+	 ImageIcon imageInfoVehiculo = new ImageIcon(getClass().getResource("miniVentana3.png"));
+	 JLabel infoMarca = new JLabel(modelo.getMarca());
+	 JLabel infoModelo = new JLabel(modelo.getNombreModelo());
+	 JLabel infoCategoria= new JLabel(modelo.getCategoriaModelo());
+	 JLabel infoCombustible = new JLabel(modelo.getCombustible());
+	 
+	 JLabel infoAÃ±o = new JLabel(Integer.toString(modelo.getAgnio()));
+	 JLabel infoNPlazas = new JLabel(Integer.toString(modelo.getNumPlazas()));
+	 JLabel infoTCaja = new JLabel(modelo.getManualAutomatico());
+	 JLabel infoTTecho = new JLabel(modelo.getTipoTecho());
+	 
+	 
+	 
+     infoMarca.setBounds(170, 82, 100, 25);
+     
+     infoModelo.setBounds(180, 112, 100, 25);
+     infoCategoria.setBounds(200, 142, 100, 25);
+     infoCombustible.setBounds(225, 172, 100, 25);
+    
+     
+     infoAÃ±o.setBounds(370, 82, 100, 25);
+     
+     infoNPlazas.setBounds(428, 110, 100, 25);
+     infoTCaja.setBounds(435, 140, 100, 25);
+     infoTTecho.setBounds(455, 172, 100, 25);
+
+     
+     
+	 imageLabel = new JLabel(imageInfoVehiculo);
+	 imageLabel.setBounds(0 ,150, 600, 250);
+	 
+	 
+	 ventana3.setResizable(false);
+     ventana3.setVisible(true);
+     
+	 ventana3.add(infoMarca);
+	 ventana3.add(infoModelo);
+	 ventana3.add(infoCategoria);
+	 ventana3.add(infoCombustible);
+	 
+	 
+	 ventana3.add(infoAÃ±o);
+	 ventana3.add(infoNPlazas);
+	 ventana3.add(infoTCaja);
+	 ventana3.add(infoTTecho);
+	 
+	 ventana3.add(imageLabel);
+ }
 @Override
 public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub
