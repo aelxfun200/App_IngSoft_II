@@ -57,6 +57,7 @@ public class Interface extends JFrame implements ActionListener {
     private Modelos modelos;
     private Franquicia franquicia ; 
     private Extras extras;
+    private Tarifas tf;
     
     private ArrayList<String> usable;
     private Coches coches;
@@ -92,6 +93,8 @@ public class Interface extends JFrame implements ActionListener {
     	extras = new Extras();
     	coches = new Coches();
     	reserva = new Reservas();
+    	tf = new Tarifas();
+    	ft = new Facturas();
     	
     	//IDENTIFICARSE
         texto = new JLabel();
@@ -348,11 +351,16 @@ public class Interface extends JFrame implements ActionListener {
         
         JTextField fechaIni = new JTextField();
         JTextField fechaFin = new JTextField();
+        JLabel textTarifaV2 = new JLabel("Seleccione tarifa");
+    	JComboBox listaTarifa = new JComboBox();
         
     	JButton botonRealizarCambios = new JButton("Realizar Cambios");
 
       //**************REALIZAR RESERVA**************
         if (seleccion.equals("Realizar Reserva")) {
+        	
+        	textTarifaV2.setBounds(470, 413, 105, 25);
+    		listaTarifa.setBounds(450, 434, 150, 25);
 
         
         	modelos.setIdModelo(reserva.getIdModelo());
@@ -389,7 +397,17 @@ public class Interface extends JFrame implements ActionListener {
     			
         	}
         	
+        //  CAMBIO 	
+        	ArrayList<String> tarifas = tf.tarias();
         	
+        	
+        	for (int i=0;i<tarifas.size();i++) {
+        			listaTarifa.addItem(tarifas.get(i));
+        			
+            	}
+        	
+        	
+        //  CAMBIO    	
         	listaFranquicias.addActionListener(new ActionListener() {
 
 
@@ -420,7 +438,7 @@ public class Interface extends JFrame implements ActionListener {
 
           	});
         	
-        	
+
    
         	listaMarcasFranquicia.addActionListener(new ActionListener() {
           		public void actionPerformed(ActionEvent arg0) {
@@ -468,12 +486,21 @@ public class Interface extends JFrame implements ActionListener {
 	      	    			listaExtrasModelo.addItem(usable.get(i));
 	      	    			
 	      	        	}
+          				
+          				//System.out.println("LAS TARIFAS SON: "+ tf.tarias());
+          				//ArrayList<String> tarifas = tf.tarias();
+                    	
+                    	//for (int i=0;i<tarifas.size();i++) {
+                		//	listaTarifa.addItem(tarifas.get(i));
+                			
+                    	//}
           		    }
           			
           			cont2 = 3;
           		}
 
           	});
+        	
         	
         	
         	botonRealizarPago.addActionListener(new ActionListener() {
@@ -486,6 +513,9 @@ public class Interface extends JFrame implements ActionListener {
           			System.out.println(fechaFin.getText());
           			reserva.setFechaInicio(fechaIni.getText());
           			reserva.setFechaFin(fechaFin.getText());
+          			System.out.println("se ha seleccionado tarifa por:" + listaTarifa.getSelectedItem().toString().substring(0,listaTarifa.getSelectedItem().toString().length()-4));
+          			ft.setIdTarifa(tf.getIdExtraSeleccionado(listaTarifa.getSelectedItem().toString().substring(4,listaTarifa.getSelectedItem().toString().length()-0)));
+          			tf.setTipoTarifa(listaTarifa.getSelectedItem().toString().substring(4,listaTarifa.getSelectedItem().toString().length()-0));
           		}
 
           	});
@@ -497,6 +527,8 @@ public class Interface extends JFrame implements ActionListener {
       //**************MODIFICAR RESERVA**************
         if (seleccion.equals("Modificar Reserva")) {
         	
+        	textTarifaV2.setBounds(470, 413, 105, 25);
+    		listaTarifa.setBounds(450, 434, 150, 25);
         	
         	seleccion = seleccion +" "+ Integer.toString(reserv.getIdReserva());
         	
@@ -536,6 +568,14 @@ public class Interface extends JFrame implements ActionListener {
     			
         	}
         	
+        	ArrayList<String> tarifas = tf.tarias();
+        	
+        	
+        	for (int i=0;i<tarifas.size();i++) {
+        			listaTarifa.addItem(tarifas.get(i));
+        			
+            	}
+        	
         	
         	listaFranquicias.addActionListener(new ActionListener() {
 
@@ -617,7 +657,18 @@ public class Interface extends JFrame implements ActionListener {
 	      	        	}
           		    }
           			
+          			
           			cont2 = 3;
+          		}
+
+          	});
+        	
+        	listaTarifa.addActionListener(new ActionListener() {
+
+
+          		public void actionPerformed(ActionEvent arg0) {				
+          				usable = tf.tarias();		
+          				System.out.println(usable.toString());
           		}
 
           	});
@@ -638,6 +689,7 @@ public class Interface extends JFrame implements ActionListener {
     	   	    	System.out.println("LA FECHA NUEVA DE INICIO ES: " + reserv.getFechaInicio());
     	   	    	reserv.setFechaFin(reserv.getFechaFin());
     	   	    	System.out.println("LA NUEVA FECHA DE FIN ES : " + reserv.getFechaFin());
+    	   	    	//reserv.se
     	   	    	
     	   	    	//------------------------------------------------------------------------¿Coche antiguo lo guarda alex?
     	   	    	reserv.setIdCocheAnt(cocheGuardado);
@@ -684,6 +736,8 @@ public class Interface extends JFrame implements ActionListener {
         ventana2.add(botonRealizarPago);
         ventana2.add(fechaIni);
         ventana2.add(fechaFin);
+    	ventana2.add(listaTarifa);
+        ventana2.add(textTarifaV2);  
         
         ventana2.add(textIniV2);
         ventana2.add(textFinV2);
@@ -849,6 +903,9 @@ public class Interface extends JFrame implements ActionListener {
    	    	System.out.println("RESERVA CREADA");
    			
    			boolean aceptada = reserva.aceptarReserva(cliente.getIdCliente(), coches.getIdCoche(), rellenarNumTarjeta.getText(), rellenarFecha.getText(), rellenarPin.getText());
+   			
+   			//ft.crearFactura(coches.getIdCoche(), cliente.getIdCliente(), ft.getIdTarifa(), extras.getIdModelo(), reserva.getIdFranquicia(), tf.getTipoTarifa());
+   			
 	   	    
    			System.out.println("El resultado de la validacion de la tarjeta es:" + aceptada);
    			

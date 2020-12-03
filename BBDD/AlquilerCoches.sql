@@ -35,7 +35,7 @@ CREATE TABLE `fichero_cliente` (
 
 LOCK TABLES `fichero_cliente` WRITE;
 /*!40000 ALTER TABLE `fichero_cliente` DISABLE KEYS */;
-INSERT INTO `fichero_cliente` VALUES (30858283),(32399540),(42401030),(76176722),(98999652);
+INSERT INTO `fichero_cliente` VALUES (1),(30858283),(32399540),(42401030),(76176722),(98999652);
 /*!40000 ALTER TABLE `fichero_cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +67,7 @@ CREATE TABLE `fichero_coche` (
 
 LOCK TABLES `fichero_coche` WRITE;
 /*!40000 ALTER TABLE `fichero_coche` DISABLE KEYS */;
-INSERT INTO `fichero_coche` VALUES (1145,10,1,'CSR','disponible'),(1444,1,2,'PJW','disponible'),(2028,14,5,'JKM','disponible'),(2459,15,12,'CNN','disponible'),(2900,11,3,'LQW','no_disponible'),(3234,8,11,'BCB','disponible'),(3244,1,1,'BSD','disponible'),(3490,2,2,'LNS','disponible'),(3849,17,6,'GPM','disponible'),(4467,10,2,'JJJ','disponible'),(4584,12,10,'LPT','disponible'),(4720,6,3,'GGG','disponible'),(4729,6,8,'GWP','disponible'),(5200,3,7,'DFH','no_disponible'),(5420,2,1,'HKS','disponible'),(5532,7,1,'FPF','disponible'),(5830,18,1,'GPS','disponible'),(5840,16,11,'FXX','disponible'),(5925,11,2,'KLS','disponible'),(6579,7,9,'JST','disponible'),(6982,5,6,'JYZ','disponible'),(7659,4,12,'KTQ','disponible'),(7885,9,9,'CPR','disponible'),(8574,19,2,'FTG','disponible'),(8593,19,4,'FPY','disponible'),(8955,7,1,'FFP','disponible'),(9051,17,5,'LPM','disponible'),(9385,13,7,'HYB','disponible'),(9582,2,4,'GBC','disponible'),(9738,4,10,'LNP','disponible');
+INSERT INTO `fichero_coche` VALUES (1145,10,1,'CSR','disponible'),(1444,1,2,'PJW','disponible'),(2028,14,5,'JKM','disponible'),(2459,15,12,'CNN','disponible'),(2900,11,3,'LQW','disponible'),(3234,8,11,'BCB','disponible'),(3244,1,1,'BSD','disponible'),(3490,2,1,'LNS','disponible'),(3849,17,6,'GPM','disponible'),(4467,10,2,'JJJ','no_disponible'),(4584,12,10,'LPT','disponible'),(4720,6,3,'GGG','disponible'),(4729,6,8,'GWP','disponible'),(5200,3,7,'DFH','no_disponible'),(5420,2,1,'HKS','disponible'),(5532,7,1,'FPF','disponible'),(5830,18,1,'GPS','disponible'),(5840,16,11,'FXX','disponible'),(5925,11,2,'KLS','no_disponible'),(6579,7,9,'JST','disponible'),(6982,5,6,'JYZ','disponible'),(7659,4,12,'KTQ','disponible'),(7885,9,9,'CPR','disponible'),(8574,19,2,'FTG','disponible'),(8593,19,4,'FPY','disponible'),(8955,7,1,'FFP','disponible'),(9051,17,5,'LPM','disponible'),(9385,13,7,'HYB','no_disponible'),(9582,2,4,'GBC','no_disponible'),(9738,4,10,'LNP','disponible');
 /*!40000 ALTER TABLE `fichero_coche` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +128,7 @@ CREATE TABLE `fichero_factura` (
   CONSTRAINT `fk_Fichero_factura_Fichero_coche1` FOREIGN KEY (`matricula`, `id_modelo`, `id_franquicia`) REFERENCES `fichero_coche` (`matricula`, `id_modelo`, `id_franquicia`) ON UPDATE CASCADE,
   CONSTRAINT `fk_Fichero_factura_Fichero_reserva1` FOREIGN KEY (`id_reserva`) REFERENCES `fichero_reserva` (`id_reserva`) ON UPDATE CASCADE,
   CONSTRAINT `fk_Fichero_factura_Fichero_tarifa1` FOREIGN KEY (`id_tarifa`) REFERENCES `fichero_tarifa` (`id_tarifa`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +163,7 @@ CREATE TABLE `fichero_franquicia` (
 
 LOCK TABLES `fichero_franquicia` WRITE;
 /*!40000 ALTER TABLE `fichero_franquicia` DISABLE KEYS */;
-INSERT INTO `fichero_franquicia` VALUES (1,'Madrid','Madrid','Calle Embajadores 45'),(2,'Barcelona','Barcelona','Calle Doctor Ventura 22'),(3,'Valencia','Valencia','Avenida Valdelasierra 110'),(4,'La Coruña','Santiiago de Compostela','Calle Juan de la Cierva 10'),(5,'Sevilla','Sevilla','Paseo del Guadalquivir 5'),(6,'Murcia','Cartagena','Calle Salva Espín 41'),(7,'Badajoz','Mérida','Avenida Imperio Romano 8'),(8,'Zaragoza','Zaragoza','Paseo Reyes Católicos 19'),(9,'Vitoria','Vitoria','Calle Picasso 34'),(10,'Toledo','Toledo','Calle Mario Entero 11'),(11,'Salamanca','Salamanca','Paseo de la Esperanza 2'),(12,'Valladolid','Valladolid','Avenida del Duero 27');
+INSERT INTO `fichero_franquicia` VALUES (1,'Madrid','Madrid','Calle Embajadores 45'),(2,'Barcelona','Barcelona','Calle Doctor Ventura 22'),(3,'Valencia','Valencia','Avenida Valdelasierra 110'),(4,'La Coruña','Santiago de Compostela','Calle Juan de la Cierva 10'),(5,'Sevilla','Sevilla','Paseo del Guadalquivir 5'),(6,'Murcia','Cartagena','Calle Salva Espín 41'),(7,'Badajoz','Mérida','Avenida Imperio Romano 8'),(8,'Zaragoza','Zaragoza','Paseo Reyes Católicos 19'),(9,'Vitoria','Vitoria','Calle Picasso 34'),(10,'Toledo','Toledo','Calle Mario Entero 11'),(11,'Salamanca','Salamanca','Paseo de la Esperanza 2'),(12,'Valladolid','Valladolid','Avenida del Duero 27');
 /*!40000 ALTER TABLE `fichero_franquicia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +230,7 @@ CREATE TABLE `fichero_reserva` (
 
 LOCK TABLES `fichero_reserva` WRITE;
 /*!40000 ALTER TABLE `fichero_reserva` DISABLE KEYS */;
-INSERT INTO `fichero_reserva` VALUES (1,1444,1,2,'reservado','2020-11-11','2020-11-12',30858283),(2,2900,11,3,'reservado','2020-11-14','2020-11-15',30858283),(3,5200,3,7,'reservado','2020-11-20','2020-12-15',30858283),(4,5532,7,1,'reservado','2020-12-20','2020-12-31',30858283),(5,5532,7,1,'reservado','2020-12-20','2020-12-31',30858283);
+INSERT INTO `fichero_reserva` VALUES (1,1444,1,2,'reservado','2020-11-11','2020-11-13',30858283),(5,4467,10,2,'reservado','2020-10-12','2020-10-14',30858283),(6,4467,10,2,'ACEPTADA','2020-10-12','2020-10-14',30858283),(2,5200,3,7,'reservado','2020-10-16','2020-10-19',1),(4,5925,11,2,'reservado','2020-11-12','2020-11-29',1),(3,9385,13,7,'ACEPTADA','2020-10-16','2020-10-19',1),(7,9582,2,4,'reservado','2021-01-01','2021-01-21',30858283),(8,9582,2,4,'ACEPTADA','2021-01-01','2021-01-21',30858283);
 /*!40000 ALTER TABLE `fichero_reserva` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,7 +247,7 @@ CREATE TABLE `fichero_tarifa` (
   `cambio_importe` varchar(45) NOT NULL,
   PRIMARY KEY (`id_tarifa`),
   UNIQUE KEY `id_tarifa_UNIQUE` (`id_tarifa`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,7 +256,7 @@ CREATE TABLE `fichero_tarifa` (
 
 LOCK TABLES `fichero_tarifa` WRITE;
 /*!40000 ALTER TABLE `fichero_tarifa` DISABLE KEYS */;
-INSERT INTO `fichero_tarifa` VALUES (1,'por dias','40€/dia'),(2,'por kilometros','0,35€/km'),(3,'para 100km','30€'),(4,'para 300km','50€'),(5,'para 500km','70€'),(6,'semanal','100€'),(7,'fin de semana','60€');
+INSERT INTO `fichero_tarifa` VALUES (1,'por_dias','40€'),(2,'por_kilometros','0.35€'),(3,'para_100km','30€'),(4,'para_300km','50€'),(5,'para_500km','70€'),(6,'semanal','100€'),(7,'fin de semana','60€'),(8,'gama_baja','0€'),(9,'gama_media','5€'),(10,'gama_alta','10€');
 /*!40000 ALTER TABLE `fichero_tarifa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,7 +286,6 @@ CREATE TABLE `reserva_tiene_extras` (
 
 LOCK TABLES `reserva_tiene_extras` WRITE;
 /*!40000 ALTER TABLE `reserva_tiene_extras` DISABLE KEYS */;
-INSERT INTO `reserva_tiene_extras` VALUES (1,1,2,2),(7,11,4,4);
 /*!40000 ALTER TABLE `reserva_tiene_extras` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -299,4 +298,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-13 12:49:14
+-- Dump completed on 2020-11-16 18:11:18
