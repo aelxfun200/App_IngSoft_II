@@ -253,6 +253,62 @@ public class Modelos {
 		return modelos;
 	}
 	
+	//PARA RETORNAR TODAS LAS MARCAS (CICLO 2)
+	public ArrayList<String> getListaMarcas() {
+		ArrayList<String> marcas = new ArrayList<String>();
+		int id;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+				Statement statement = conn.createStatement();) {
+			
+			
+		            // Create and execute a SELECT SQL statement.
+		            String selectSql = "SELECT DISTINCT marca FROM alquilercoches.fichero_modelo  ";
+		            resultSet = statement.executeQuery(selectSql);
+		            while (resultSet.next()) {
+		            marcas.add(resultSet.getString(1));
+		            }
+			
+					
+				}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//System.out.println( "MARCAS DISPONIBLES: " + marcas.toString());
+		return marcas;
+	}
+	
+	
+	
+	
+	
+	//PARA RETORNAR LOS MODELOS DE UNA MARCA (CICLO 2)
+	public ArrayList<String> getListaModelosMarca(String marca) {
+		ArrayList<String> modelos = new ArrayList<String>();
+		int id;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+				Statement statement = conn.createStatement();) {
+			
+		
+		            // Create and execute a SELECT SQL statement.
+		            String selectSql = "SELECT DISTINCT nombre_modelo FROM alquilercoches.fichero_modelo WHERE marca = \"" + marca + "\"" ;
+		            resultSet = statement.executeQuery(selectSql);
+		            while (resultSet.next()) {
+		            modelos.add(resultSet.getString(1));
+		            }
+			
+					
+				}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//System.out.println("MODELOS DISPONIBLES: " + modelos.toString());
+		return modelos;
+	}
+	
 	
 	public int getIdModeloSeleccionado(String marca, String modelo) {
 		int id = 0;
