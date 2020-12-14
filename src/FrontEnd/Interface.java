@@ -35,7 +35,7 @@ public class Interface extends JFrame implements ActionListener {
     
     private JLabel imageLabel;
     private JLabel texto;//Introduzca DNI   
-    private JLabel texto2;  //Introduzca contraseÃ±a
+    private JLabel texto2;  //Introduzca contraseña
     private JButton botonAcceder;
     private JButton botonRegistrarse;
     private JTextField rellenarDNI;
@@ -52,6 +52,7 @@ public class Interface extends JFrame implements ActionListener {
     private Clientes cliente;
     
     private String dniCliente;
+    private String password;
     
     private ArrayList<Reservas> listaReservas;
     private Modelos modelos;
@@ -129,7 +130,7 @@ public class Interface extends JFrame implements ActionListener {
         //IDENTIFICARSE
         texto.setText("Introduzca su DNI:");    
         texto.setBounds(350, 150, 200, 60);   
-        texto2.setText("Introduzca su contraseÃ±a:"); 
+        texto2.setText("Introduzca su contraseña:"); 
         texto2.setBounds(550, 150, 200, 60);  
         botonAcceder.setText("Acceder");   
         botonAcceder.setBounds(520, 255, 200, 26);  
@@ -141,7 +142,7 @@ public class Interface extends JFrame implements ActionListener {
 
         
         //RESERVAS
-        botonRealizarR.setText("Relizar Reserva");   
+        botonRealizarR.setText("Realizar Reserva");   
         botonRealizarR.setBounds(433, 350, 150, 35);
         botonConsultarR.setText("Consultar Reservas");   
         botonConsultarR.setBounds(270, 410, 150, 35);
@@ -152,7 +153,7 @@ public class Interface extends JFrame implements ActionListener {
         
         //GAMA COCHES
         
-        botonInfoCoche.setText("Consultar InformaciÃ³n");   
+        botonInfoCoche.setText("Consultar Información");   
         botonInfoCoche.setBounds(415, 600, 200, 35);
         listaMarcas.setBounds(300, 550, 200, 25);
         listaModelos.setBounds(550, 550, 200, 25);
@@ -200,14 +201,16 @@ public class Interface extends JFrame implements ActionListener {
     		    			
     		    			
     			dniCliente= rellenarDNI.getText();
+    			password = rellenarContra.getText();
 
-    			if(esNumero(dniCliente)&& cliente.compararIdCliente(Integer.parseInt(dniCliente)) ) {
+    			if(esNumero(dniCliente)&& cliente.compararCredenciales(Integer.parseInt(dniCliente), password) ) {
     
     			cont = 1;
             	cliente.setIdCliente(Integer.parseInt(dniCliente));
+            	mensaje("a");
             	
-            	System.out.println("bien");
     			}
+    			else mensaje("b");
     		}
 
     	});
@@ -235,6 +238,8 @@ public class Interface extends JFrame implements ActionListener {
     		public void actionPerformed(ActionEvent arg0) {
     			if(cont == 1)
     			crearVentanaMini("Modificar Reserva", cliente);
+    			else
+    				mensaje("d");
     		}
 
     	});
@@ -246,14 +251,17 @@ public class Interface extends JFrame implements ActionListener {
 
     		public void actionPerformed(ActionEvent arg0) {
     			if (cont == 1)
-            	crearVentanaMini("Consultar Reservas", cliente);
+            	crearVentanaMini("Consultar Reserva", cliente);
+    			
+    			else 
+    				mensaje("c");
     			
     		}
 
     	});
         
         
-        //NO CICLO 1
+        //NO IMPLEMENTAR
         botonEliminarR.addActionListener(new ActionListener() {
 
     		public void actionPerformed(ActionEvent arg0) {
@@ -265,7 +273,8 @@ public class Interface extends JFrame implements ActionListener {
     	});
         
         
-        //INFO AUTOMOVIL
+        
+        //INFO AUTOMOVIL (CICLO 2)
         
         listaMarcas.addActionListener(new ActionListener() {
 
@@ -292,12 +301,26 @@ public class Interface extends JFrame implements ActionListener {
 
     	});
    
-        
-        
-   
 
     } 
     
+    
+    //CICLO 2
+    public void mensaje (String letra) {
+    	
+    	if (letra.equals("a"))
+    	JOptionPane.showMessageDialog(this, "¡Bienvenido!");
+    	
+    	if (letra.equals("b"))
+        	JOptionPane.showMessageDialog(this, "Usuario no válido. Vuelva a intentarlo");
+        
+    	if (letra.equals("c"))
+        	JOptionPane.showMessageDialog(this, "Iniciar sesión para consultar reserva");
+    	
+    	if (letra.equals("d"))
+        	JOptionPane.showMessageDialog(this, "Iniciar sesión para modificar reserva");
+
+    }
     
     //*
     public static boolean esNumero(String cadena) {
@@ -699,11 +722,10 @@ public class Interface extends JFrame implements ActionListener {
     	   	    	System.out.println("LA NUEVA FECHA DE FIN ES : " + reserv.getFechaFin());
     	   	    	//reserv.se
     	   	    	
- 	//------------------------------------------------------------------------¿Coche antiguo lo guarda alex?
+    	   	    	//------------------------------------------------------------------------¿Coche antiguo lo guarda alex?
     	   	    	reserv.setIdCocheAnt(cocheGuardado);
     	   	    	reserv.modificarReserva(cliente.getIdCliente(), reserv.getIdCocheAntiguo());
     	   	    	System.out.println("LA MATRICULA DEL COCHE ANTIGUO ES: " + reserv.getIdCocheAntiguo());
-
     	   	    	System.out.println("RESERVA ACTUALIZADA");
           			
           			
@@ -759,7 +781,7 @@ public class Interface extends JFrame implements ActionListener {
     
     
     
- private void crearVentanaMini(String seleccion, Clientes client) {
+    private void crearVentanaMini(String seleccion, Clientes client) {
  	   
  	   
 	  Interface ventana3 = new Interface(seleccion,600,250);
@@ -781,13 +803,16 @@ public class Interface extends JFrame implements ActionListener {
        
        //Algoritmo
        
-       
+       System.out.println("dni cliente:" + client.getIdCliente());
        reserva.setIdCliente(client.getIdCliente());
+       
        listaReservas = reserva.listarReservas(reserva.getIdCliente());
+       
+       System.out.println(listaReservas.size());
        
        
        System.out.println(reserva.getIdCliente());
-       System.out.println("EL NÚMERO DE RESERVAS ES: " + listaReservas.size());
+      
 
        
 
@@ -822,7 +847,15 @@ public class Interface extends JFrame implements ActionListener {
     			cocheGuardado = reservaElegida.getIdCocheAntiguo();
     			
     			System.out.println(reservaElegida.getIdCocheAntiguo());
-    			crearVentanaR("Modificar Reserva",client, reservaElegida);
+    			System.out.println(seleccion);
+    			
+    			if (seleccion.equals("Modificar Reserva"))
+    			crearVentanaR(seleccion,client, reservaElegida);
+    			
+    			if (seleccion.equals("Consultar Reserva"))
+    				
+        			crearVentanaInfoR(seleccion,reservaElegida);
+        			
     		}
 
     	});
@@ -930,11 +963,12 @@ public class Interface extends JFrame implements ActionListener {
  	
  }
  
-  private void crearVentanaMini3(String seleccion) {
+ //CICLO 2
+ private void crearVentanaMini3(String seleccion) {
 	 Interface ventana3 = new Interface("Modelo "+ seleccion,600,290);
 	 Modelos modelo = new Modelos();
 	 
-	 modelo.rellenarInfo(seleccion);
+	 //modelo.rellenarInfo(seleccion); IMPLEMENTAR METODO EN CLASE MODELOS
 	 
 	 ImageIcon imageInfoVehiculo = new ImageIcon(getClass().getResource("miniVentana3.png"));
 	 JLabel infoMarca = new JLabel(modelo.getMarca());
@@ -942,7 +976,7 @@ public class Interface extends JFrame implements ActionListener {
 	 JLabel infoCategoria= new JLabel(modelo.getCategoriaModelo());
 	 JLabel infoCombustible = new JLabel(modelo.getCombustible());
 	 
-	 JLabel infoAÃ±o = new JLabel(Integer.toString(modelo.getAgnio()));
+	 JLabel infoAño = new JLabel(Integer.toString(modelo.getAgnio()));
 	 JLabel infoNPlazas = new JLabel(Integer.toString(modelo.getNumPlazas()));
 	 JLabel infoTCaja = new JLabel(modelo.getManualAutomatico());
 	 JLabel infoTTecho = new JLabel(modelo.getTipoTecho());
@@ -956,7 +990,7 @@ public class Interface extends JFrame implements ActionListener {
      infoCombustible.setBounds(225, 172, 100, 25);
     
      
-     infoAÃ±o.setBounds(370, 82, 100, 25);
+     infoAño.setBounds(370, 82, 100, 25);
      
      infoNPlazas.setBounds(428, 110, 100, 25);
      infoTCaja.setBounds(435, 140, 100, 25);
@@ -977,12 +1011,108 @@ public class Interface extends JFrame implements ActionListener {
 	 ventana3.add(infoCombustible);
 	 
 	 
-	 ventana3.add(infoAÃ±o);
+	 ventana3.add(infoAño);
 	 ventana3.add(infoNPlazas);
 	 ventana3.add(infoTCaja);
 	 ventana3.add(infoTTecho);
 	 
 	 ventana3.add(imageLabel);
+ }
+ 
+ //CICLO 2
+ private void crearVentanaInfoR(String seleccion, Reservas reservaI) {
+	 Interface ventanaInfoR = new Interface(seleccion,933,400);
+	 Modelos modelo = new Modelos();
+	 
+	 //modelo.rellenarInfo(seleccion);
+	 
+	 ImageIcon imageInfoReserva = new ImageIcon(getClass().getResource("infoReserva1.png"));
+	
+	 /*
+	 JLabel infoDni = new JLabel("123");
+	 JLabel infoNombre = new JLabel("Luis");
+	 JLabel infoApellido = new JLabel("Gonzales");
+	 JLabel infoTipoCliente = new JLabel("particular");
+	 
+	 JLabel infoIdReserva = new JLabel("reserva1010");
+	 JLabel infoEstadoReserva = new JLabel("reservado");
+	 JLabel infoFechaIni = new JLabel("2020-10-20");
+	 JLabel infoFechaFin = new JLabel("2020-10-21");
+	
+	 JLabel infoMarca = new JLabel("Ford");
+	 JLabel infoModelo = new JLabel("Focus");
+	 JLabel infoFranquicia = new JLabel("Madrid");
+	 
+	 */
+	 
+	 ArrayList<String> datosCliente = cliente.obtenerAtributosCliente(cliente.getIdCliente());
+	 JLabel infoDni = new JLabel(Integer.toString(cliente.getIdCliente()));
+	 JLabel infoNombre = new JLabel(datosCliente.get(1));
+	 JLabel infoApellido = new JLabel(datosCliente.get(2));
+	 JLabel infoTipoCliente = new JLabel(datosCliente.get(3));
+	 
+	 JLabel infoIdReserva = new JLabel(Integer.toString(reservaI.getIdReserva()));
+	 JLabel infoEstadoReserva = new JLabel(reservaI.getEstadoReserva());
+	 JLabel infoFechaIni = new JLabel(reservaI.getFechaInicio());
+	 JLabel infoFechaFin = new JLabel(reservaI.getFechaFin());
+	
+	 Modelos modeloI = new Modelos();
+	 //modeloI.obtenerMarcaModelo(reservaI.getIdModelo()); IMPLEMENTAR METODO EN CLASE MODELOS
+	 
+	 JLabel infoMarca = new JLabel(modeloI.getMarca());
+	 JLabel infoModelo = new JLabel(modeloI.getNombreModelo());
+	 
+	 Franquicia franquicia = new Franquicia();
+	 //String nombreFranquicia = franquicia.obtenerFranquicia(reserva.getIdFranquicia());
+	 JLabel infoFranquicia = new JLabel(/*nombreFranquicia*/);
+	 
+	 
+	 imageLabel = new JLabel(imageInfoReserva);
+	 imageLabel.setBounds(0 ,150, 600, 250);
+	 
+	 
+     infoDni.setBounds(185, 75, 100, 25);
+     infoNombre.setBounds(365, 75, 100, 25);
+     infoApellido.setBounds(580, 74, 100, 25);
+     infoTipoCliente.setBounds(800, 74, 100, 25);
+
+     
+     infoIdReserva.setBounds(400, 135, 100, 25);
+     infoEstadoReserva.setBounds(740, 135, 100, 25);
+     infoFechaIni.setBounds(410, 188, 100, 25);
+     infoFechaFin.setBounds(650, 188, 100, 25);
+     
+     
+     infoMarca.setBounds(300, 250, 100, 25);
+     infoModelo.setBounds(500, 250, 100, 25);
+     infoFranquicia.setBounds(730, 247, 100, 25);
+
+
+	 
+	 ventanaInfoR.setResizable(false);
+	 ventanaInfoR.setVisible(true);
+     
+	 
+	 ventanaInfoR.add(infoDni);
+	
+	 ventanaInfoR.add(infoNombre);
+	 
+	 ventanaInfoR.add(infoApellido);
+	 ventanaInfoR.add(infoTipoCliente);
+	
+	 ventanaInfoR.add(infoIdReserva);
+	 ventanaInfoR.add(infoEstadoReserva);
+	
+	 ventanaInfoR.add(infoFechaIni);
+	 ventanaInfoR.add(infoFechaFin);
+	 
+	 
+	 ventanaInfoR.add(infoMarca);
+	 ventanaInfoR.add(infoModelo);
+	
+	 ventanaInfoR.add(infoFranquicia);
+	
+	 ventanaInfoR.add(imageLabel);
  }
 @Override
 public void actionPerformed(ActionEvent e) {
