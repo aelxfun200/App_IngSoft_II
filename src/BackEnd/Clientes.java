@@ -26,7 +26,7 @@ public class Clientes {
 		atributosCliente1.add("Alex"); //nombre
 		atributosCliente1.add("Stan"); //apellido
 		atributosCliente1.add("particular"); //tipo cliente
-		atributosCliente1.add("123456789"); //numero tarjeta
+		atributosCliente1.add("5518931840652861"); //numero tarjeta
 		atributosCliente1.add("12/2024"); //fecha caducidad tarjeta
 		atributosCliente1.add("612"); //codigo seguridad tarjeta
 		
@@ -34,7 +34,7 @@ public class Clientes {
 		atributosCliente2.add("Luis"); //nombre
 		atributosCliente2.add("Garcia"); //apellido
 		atributosCliente2.add("empresa"); //tipo cliente
-		atributosCliente2.add("10101010"); //numero tarjeta
+		atributosCliente2.add("5545814130598993"); //numero tarjeta
 		atributosCliente2.add("10/2022"); //fecha caducidad tarjeta
 		atributosCliente2.add("616"); //codigo seguridad tarjeta
 		
@@ -43,20 +43,15 @@ public class Clientes {
 		atributosCliente3.add("Marta"); //nombre
 		atributosCliente3.add("Gomez"); //apellido
 		atributosCliente3.add("empresa"); //tipo cliente
-		atributosCliente3.add("202020"); //numero tarjeta
+		atributosCliente3.add("4654654654564633"); //numero tarjeta
 		atributosCliente3.add("05/2021"); //fecha caducidad tarjeta
 		atributosCliente3.add("123"); //codigo seguridad tarjeta
 		
 		
-		clientes.put(1, atributosCliente1);
-		clientes.put(2, atributosCliente2);
-		clientes.put(3, atributosCliente3);
-		
-		
-		
-		
-		
-		
+		clientes.put(30858283, atributosCliente1);
+		clientes.put(32399540, atributosCliente2);
+		clientes.put(42401030, atributosCliente3);
+
 		tarjetas.add("30858283-5518931840652861-12/2024-612");
 		tarjetas.add("32399540-5545814130598993-10/2022-616");
 		tarjetas.add("42401030-4654654654564633-05/2021-123");
@@ -120,13 +115,13 @@ public class Clientes {
 		this.numSecretoTarjeta = numSecretoTarjeta;
 	}
 	
-	//MÃ‰TODOS
+	//MÉTODOS
 	
 	//CICLO 2
 	public boolean compararCredenciales(int dni, String password) {
 		boolean respuesta = clientes.containsKey(dni);
 		if (respuesta) {
-			ArrayList datosCliente = clientes.get(dni);
+			ArrayList<String> datosCliente = clientes.get(dni);
 			if (!datosCliente.get(0).equals(password)) {
 				respuesta = false;
 				
@@ -139,7 +134,6 @@ public class Clientes {
 	//CICLO 2
 	public ArrayList<String> obtenerAtributosCliente(int dni){
 		return clientes.get(dni);
-		
 		
 	}
 	

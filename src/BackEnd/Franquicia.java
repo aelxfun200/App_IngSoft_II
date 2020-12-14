@@ -125,5 +125,53 @@ public class Franquicia {
 		
 		return id;
 	}
+	
+	public String obtenerFranquicia(int idFranquicia) {
+		String nFranq = " ";
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT ciudad FROM alquilercoches.fichero_franquicia WHERE id_franquicia = " + idFranquicia ;
+	            resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	               // System.out.println(resultSet.getString(1));
+	                nFranq = resultSet.getString(1);
+	            }
+			
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return nFranq;
+	}
+	
+	public int getIdCiudadRes(int IdReserva) {
+		int id = 0;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT id_franquicia FROM alquilercoches.fichero_reserva WHERE id_reserva = " + IdReserva ;
+	            resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) {
+	               // System.out.println(resultSet.getString(1));
+	                id = resultSet.getInt(1);
+	            }
+			
+		}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
 
 }

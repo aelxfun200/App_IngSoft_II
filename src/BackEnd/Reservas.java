@@ -12,12 +12,16 @@ public class Reservas {
 	private int idReserva;
 	private int idCliente;
 	private int idModelo;
+	private String modelo;
+	private String marca;
 	private int idFranquicia;
 	private int idCoche;
 	private int idCocheAnt;
 	private String estadoReserva;
 	private String fechaInicio;
 	private String fechaFin;
+	private String franquicia;
+	private String tipoTarifa;
 	
 	
 	//CONSTRUCTOR
@@ -55,6 +59,22 @@ public class Reservas {
 	
 	public int getIdReserva() {
 		return this.idReserva;
+	}
+	
+	public String getModelo() {
+		return this.modelo;
+	}
+
+	public String getMarca() {
+		return this.marca;
+	}
+	
+	public String getFranquicia() {
+		return this.franquicia;
+	}
+	
+	public String getTipoTarifa() {
+		return this.tipoTarifa;
 	}
 	
 	public int getIdCocheAntiguo() {
@@ -127,6 +147,22 @@ public class Reservas {
 	
 	public void setEstadoReserva(String estadoReserva) {
 		this.estadoReserva = estadoReserva;
+	}
+	
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
+	
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+	
+	public void setTipoTarifa(String tipoTarifa) {
+		this.tipoTarifa = tipoTarifa;
+	}
+	
+	public void setFranquicia(String franquicia) {
+		this.franquicia = franquicia;
 	}
 	
 	
@@ -416,6 +452,181 @@ public class Reservas {
     	res.setFechaFin(ff);
     	res.setIdCoche(idCoche);
     	return res;
+	}
+	
+	public void accederInfoReserva(int idReserva) {
+			
+		//NOMBRE
+	
+		//APELLIDO
+		
+		//TIPO_CLIENTE
+		
+		//------------------------------------------------------------------------------------
+		
+		//DNI
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT id_cliente from alquilercoches.fichero_reserva WHERE (id_reserva = " + idReserva + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	setIdCliente(resultSet.getInt(1));
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		//ESTADO_RESERVA
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT estado_reserva from alquilercoches.fichero_reserva WHERE (id_reserva = " + idReserva + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	setEstadoReserva(resultSet.getString(1));
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		//FECHA_INICIO
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT fecha_inicio from alquilercoches.fichero_reserva WHERE (id_reserva = " + idReserva + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	setFechaInicio(resultSet.getString(1));
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		//FECHA_FIN
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT fecha_fin from alquilercoches.fichero_reserva WHERE (id_reserva = " + idReserva + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	setFechaFin(resultSet.getString(1));
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		//MARCA
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT marca from alquilercoches.fichero_modelo WHERE (id_modelo = (SELECT id_modelo from alquilercoches.fichero_reservas WHERE id_reservas =" + idReserva +  "))";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	setMarca(resultSet.getString(1));
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		//MODELO
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT nombre_modelo from alquilercoches.fichero_modelo WHERE (id_modelo = (SELECT id_modelo from alquilercoches.fichero_reservas WHERE id_reservas =" + idReserva +  "))";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	setModelo(resultSet.getString(1));
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		//FRANQUICIA
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectS = "SELECT id_franquicia from alquilercoches.fichero_coche WHERE (matricula = (SELECT id_coche from alquilercoches.fichero_reservas WHERE id_reservas =" + idReserva +  "))";
+		        String selectSql = "SELECT ciudad from alquilercoches.fichero_franquicia WHERE (id_franquicia = " + selectS + ")";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	setFranquicia(resultSet.getString(1));
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		
+		//TIPO_TARIFA
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				Statement statement = conn.createStatement();) {
+
+		        // Create and execute a SELECT SQL statement.
+		        String selectSql = "SELECT tipo_tarifa from alquilercoches.fichero_tarifa WHERE (id_tarifa = (SELECT id_tarifa from alquilercoches.fichero_factura WHERE id_reservas =" + idReserva +  "))";
+		        resultSet = statement.executeQuery(selectSql);
+
+	            // Print results from select statement
+	            while (resultSet.next()) { 
+	            	setTipoTarifa(resultSet.getString(1));
+	            }
+			}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		
+		
 	}
 	
 

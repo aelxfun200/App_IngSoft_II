@@ -18,6 +18,7 @@ public class Modelos {
 	private String combustible;
 	private int numPlazas;
 	private int agnio;
+	private String nombreModelo;
 	
 	String conexion;
     ResultSet resultSet = null;
@@ -253,62 +254,6 @@ public class Modelos {
 		return modelos;
 	}
 	
-	//PARA RETORNAR TODAS LAS MARCAS (CICLO 2)
-	public ArrayList<String> getListaMarcas() {
-		ArrayList<String> marcas = new ArrayList<String>();
-		int id;
-		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
-				
-				Statement statement = conn.createStatement();) {
-			
-			
-		            // Create and execute a SELECT SQL statement.
-		            String selectSql = "SELECT DISTINCT marca FROM alquilercoches.fichero_modelo  ";
-		            resultSet = statement.executeQuery(selectSql);
-		            while (resultSet.next()) {
-		            marcas.add(resultSet.getString(1));
-		            }
-			
-					
-				}
-		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		//System.out.println( "MARCAS DISPONIBLES: " + marcas.toString());
-		return marcas;
-	}
-	
-	
-	
-	
-	
-	//PARA RETORNAR LOS MODELOS DE UNA MARCA (CICLO 2)
-	public ArrayList<String> getListaModelosMarca(String marca) {
-		ArrayList<String> modelos = new ArrayList<String>();
-		int id;
-		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
-				
-				Statement statement = conn.createStatement();) {
-			
-		
-		            // Create and execute a SELECT SQL statement.
-		            String selectSql = "SELECT DISTINCT nombre_modelo FROM alquilercoches.fichero_modelo WHERE marca = \"" + marca + "\"" ;
-		            resultSet = statement.executeQuery(selectSql);
-		            while (resultSet.next()) {
-		            modelos.add(resultSet.getString(1));
-		            }
-			
-					
-				}
-		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		//System.out.println("MODELOS DISPONIBLES: " + modelos.toString());
-		return modelos;
-	}
-	
 	
 	public int getIdModeloSeleccionado(String marca, String modelo) {
 		int id = 0;
@@ -333,5 +278,195 @@ public class Modelos {
 			
 		return id;
 	}
+	
+	
+	public void obtenerMarcaModelo(int idModelo) {
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+						
+			Statement statement = conn.createStatement();) {
+		
+	
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT nombre_modelo FROM alquilercoches.fichero_modelo WHERE id_modelo = " + idModelo ;
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	setNombreModelo(resultSet.getString(1));
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+				Statement statement = conn.createStatement();) {
+			
+		
+		            // Create and execute a SELECT SQL statement.
+		            String selectSql = "SELECT DISTINCT marca FROM alquilercoches.fichero_modelo WHERE id_modelo = " + idModelo ;
+		            resultSet = statement.executeQuery(selectSql);
+		            while (resultSet.next()) {
+		            	setMarca(resultSet.getString(1));
+		            }
+					
+				}
+			
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+	}
+	
+	public void rellenarInfo(String modelo) {
+		
+		setNombreModelo(modelo);
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+			Statement statement = conn.createStatement();) {
+		
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT marca FROM alquilercoches.fichero_modelo WHERE nombre_modelo = \"" + modelo + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	setMarca(resultSet.getString(1));
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+			Statement statement = conn.createStatement();) {
+		
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT categoria_modelo FROM alquilercoches.fichero_modelo WHERE nombre_modelo = \"" + modelo + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	setCatergoriaModelo(resultSet.getString(1));
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+			Statement statement = conn.createStatement();) {
+		
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT combustible FROM alquilercoches.fichero_modelo WHERE nombre_modelo = \"" + modelo + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	setCombustible(resultSet.getString(1));
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+			Statement statement = conn.createStatement();) {
+		
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT año FROM alquilercoches.fichero_modelo WHERE nombre_modelo = \"" + modelo + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	setAgnio(resultSet.getInt(1));
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+			Statement statement = conn.createStatement();) {
+		
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT num_plazas FROM alquilercoches.fichero_modelo WHERE nombre_modelo = \"" + modelo + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	setNumPlazas(resultSet.getInt(1));
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+			Statement statement = conn.createStatement();) {
+		
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT manual_automatico FROM alquilercoches.fichero_modelo WHERE nombre_modelo = \"" + modelo + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	setManualAutomatico(resultSet.getString(1));
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+				
+			Statement statement = conn.createStatement();) {
+		
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT tipo_techo FROM alquilercoches.fichero_modelo WHERE nombre_modelo = \"" + modelo + "\"";
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	setTipoTecho(resultSet.getString(1));
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public int devolverIdModelo(int idReserva) {
+		int id = 0;
+		try (Connection conn = DriverManager.getConnection(accesoURL(), usuario(), password());
+						
+			Statement statement = conn.createStatement();) {
+		
+	
+	            // Create and execute a SELECT SQL statement.
+	            String selectSql = "SELECT DISTINCT id_modelo FROM alquilercoches.fichero_reserva WHERE id_reserva = " + idReserva ;
+	            resultSet = statement.executeQuery(selectSql);
+	            while (resultSet.next()) {
+	            	id = resultSet.getInt(1);
+	            }
+				
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return id;
+	}
+		
 		
 }

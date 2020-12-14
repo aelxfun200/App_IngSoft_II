@@ -130,7 +130,7 @@ public class Interface extends JFrame implements ActionListener {
         //IDENTIFICARSE
         texto.setText("Introduzca su DNI:");    
         texto.setBounds(350, 150, 200, 60);   
-        texto2.setText("Introduzca su contraseÃ±a:"); 
+        texto2.setText("Introduzca su contraseña:"); 
         texto2.setBounds(550, 150, 200, 60);  
         botonAcceder.setText("Acceder");   
         botonAcceder.setBounds(520, 255, 200, 26);  
@@ -153,7 +153,7 @@ public class Interface extends JFrame implements ActionListener {
         
         //GAMA COCHES
         
-        botonInfoCoche.setText("Consultar InformaciÃ³n");   
+        botonInfoCoche.setText("Consultar Información");   
         botonInfoCoche.setBounds(415, 600, 200, 35);
         listaMarcas.setBounds(300, 550, 200, 25);
         listaModelos.setBounds(550, 550, 200, 25);
@@ -309,16 +309,16 @@ public class Interface extends JFrame implements ActionListener {
     public void mensaje (String letra) {
     	
     	if (letra.equals("a"))
-    	JOptionPane.showMessageDialog(this, "Â¡Bienvenido!");
+    	JOptionPane.showMessageDialog(this, "¡Bienvenido!");
     	
     	if (letra.equals("b"))
-        	JOptionPane.showMessageDialog(this, "Usuario no vÃ¡lido. Vuelva a intentarlo");
+        	JOptionPane.showMessageDialog(this, "Usuario no válido. Vuelva a intentarlo");
         
     	if (letra.equals("c"))
-        	JOptionPane.showMessageDialog(this, "Iniciar sesiÃ³n para consultar reserva");
+        	JOptionPane.showMessageDialog(this, "Iniciar sesión para consultar reserva");
     	
     	if (letra.equals("d"))
-        	JOptionPane.showMessageDialog(this, "Iniciar sesiÃ³n para modificar reserva");
+        	JOptionPane.showMessageDialog(this, "Iniciar sesión para modificar reserva");
 
     }
     
@@ -968,7 +968,7 @@ public class Interface extends JFrame implements ActionListener {
 	 Interface ventana3 = new Interface("Modelo "+ seleccion,600,290);
 	 Modelos modelo = new Modelos();
 	 
-	 //modelo.rellenarInfo(seleccion); IMPLEMENTAR METODO EN CLASE MODELOS
+	 modelo.rellenarInfo(seleccion); //IMPLEMENTAR METODO EN CLASE MODELOS
 	 
 	 ImageIcon imageInfoVehiculo = new ImageIcon(getClass().getResource("miniVentana3.png"));
 	 JLabel infoMarca = new JLabel(modelo.getMarca());
@@ -976,25 +976,25 @@ public class Interface extends JFrame implements ActionListener {
 	 JLabel infoCategoria= new JLabel(modelo.getCategoriaModelo());
 	 JLabel infoCombustible = new JLabel(modelo.getCombustible());
 	 
-	 JLabel infoAÃ±o = new JLabel(Integer.toString(modelo.getAgnio()));
+	 JLabel infoAgnio = new JLabel(Integer.toString(modelo.getAgnio()));
 	 JLabel infoNPlazas = new JLabel(Integer.toString(modelo.getNumPlazas()));
 	 JLabel infoTCaja = new JLabel(modelo.getManualAutomatico());
 	 JLabel infoTTecho = new JLabel(modelo.getTipoTecho());
 	 
 	 
 	 
-     infoMarca.setBounds(170, 82, 100, 25);
+     infoMarca.setBounds(170, 77, 100, 25);
      
-     infoModelo.setBounds(180, 112, 100, 25);
-     infoCategoria.setBounds(200, 142, 100, 25);
-     infoCombustible.setBounds(225, 172, 100, 25);
+     infoModelo.setBounds(180, 107, 100, 25);
+     infoCategoria.setBounds(200, 137, 100, 25);
+     infoCombustible.setBounds(225, 167, 100, 25);
     
      
-     infoAÃ±o.setBounds(370, 82, 100, 25);
+     infoAgnio.setBounds(370, 77, 100, 25);
      
-     infoNPlazas.setBounds(428, 110, 100, 25);
-     infoTCaja.setBounds(435, 140, 100, 25);
-     infoTTecho.setBounds(455, 172, 100, 25);
+     infoNPlazas.setBounds(428, 105, 100, 25);
+     infoTCaja.setBounds(435, 135, 100, 25);
+     infoTTecho.setBounds(455, 167, 100, 25);
 
      
      
@@ -1011,7 +1011,7 @@ public class Interface extends JFrame implements ActionListener {
 	 ventana3.add(infoCombustible);
 	 
 	 
-	 ventana3.add(infoAÃ±o);
+	 ventana3.add(infoAgnio);
 	 ventana3.add(infoNPlazas);
 	 ventana3.add(infoTCaja);
 	 ventana3.add(infoTTecho);
@@ -1024,7 +1024,7 @@ public class Interface extends JFrame implements ActionListener {
 	 Interface ventanaInfoR = new Interface(seleccion,933,400);
 	 Modelos modelo = new Modelos();
 	 
-	 //modelo.rellenarInfo(seleccion);
+	 modelo.rellenarInfo(seleccion);
 	 
 	 ImageIcon imageInfoReserva = new ImageIcon(getClass().getResource("infoReserva1.png"));
 	
@@ -1057,35 +1057,36 @@ public class Interface extends JFrame implements ActionListener {
 	 JLabel infoFechaFin = new JLabel(reservaI.getFechaFin());
 	
 	 Modelos modeloI = new Modelos();
-	 //modeloI.obtenerMarcaModelo(reservaI.getIdModelo()); IMPLEMENTAR METODO EN CLASE MODELOS
+	 
+	 modeloI.obtenerMarcaModelo(modeloI.devolverIdModelo(reservaI.getIdReserva())); // IMPLEMENTAR METODO EN CLASE MODELOS
 	 
 	 JLabel infoMarca = new JLabel(modeloI.getMarca());
 	 JLabel infoModelo = new JLabel(modeloI.getNombreModelo());
 	 
 	 Franquicia franquicia = new Franquicia();
-	 //String nombreFranquicia = franquicia.obtenerFranquicia(reserva.getIdFranquicia());
-	 JLabel infoFranquicia = new JLabel(/*nombreFranquicia*/);
+	 String nombreFranquicia = franquicia.obtenerFranquicia(franquicia.getIdCiudadRes(reservaI.getIdReserva()));
+	 JLabel infoFranquicia = new JLabel(nombreFranquicia);
 	 
 	 
 	 imageLabel = new JLabel(imageInfoReserva);
 	 imageLabel.setBounds(0 ,150, 600, 250);
 	 
 	 
-     infoDni.setBounds(185, 75, 100, 25);
-     infoNombre.setBounds(365, 75, 100, 25);
-     infoApellido.setBounds(580, 74, 100, 25);
-     infoTipoCliente.setBounds(800, 74, 100, 25);
+     infoDni.setBounds(185, 70, 100, 25);
+     infoNombre.setBounds(365, 70, 100, 25);
+     infoApellido.setBounds(580, 69, 100, 25);
+     infoTipoCliente.setBounds(800, 69, 100, 25);
 
      
-     infoIdReserva.setBounds(400, 135, 100, 25);
-     infoEstadoReserva.setBounds(740, 135, 100, 25);
-     infoFechaIni.setBounds(410, 188, 100, 25);
-     infoFechaFin.setBounds(650, 188, 100, 25);
+     infoIdReserva.setBounds(400, 130, 100, 25);
+     infoEstadoReserva.setBounds(740, 130, 100, 25);
+     infoFechaIni.setBounds(410, 183, 100, 25);
+     infoFechaFin.setBounds(650, 183, 100, 25);
      
      
-     infoMarca.setBounds(300, 250, 100, 25);
-     infoModelo.setBounds(500, 250, 100, 25);
-     infoFranquicia.setBounds(730, 247, 100, 25);
+     infoMarca.setBounds(300, 245, 100, 25);
+     infoModelo.setBounds(500, 245, 100, 25);
+     infoFranquicia.setBounds(730, 242, 100, 25);
 
 
 	 
